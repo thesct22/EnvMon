@@ -11,7 +11,7 @@
     tools:context=".MainActivity">
 
     <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/maintemp1"
+        android:id="@+id/mainhum1"
         android:layout_width="match_parent"
         android:layout_height="500dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -21,7 +21,7 @@
         app:layout_constraintVertical_bias="0.132"/>
 
     <Button
-        android:id="@+id/btohum"
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="sendMessage"
@@ -30,8 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.213"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/maintemp1"
+        app:layout_constraintTop_toBottomOf="@+id/mainhum1"
         app:layout_constraintVertical_bias="0.496" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

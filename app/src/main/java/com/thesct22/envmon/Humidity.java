@@ -26,25 +26,25 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity {
-    LineChart maintemp1;
+public class Humidity extends AppCompatActivity {
+    LineChart mainhum1;
     private DatabaseReference mdb;
     ArrayList<Entry> temp1data;
     LineDataSet temp1lds= new LineDataSet(null, null);
     ArrayList<ILineDataSet> temp1ilds = new ArrayList<>();
     LineData temp1ld;
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "MainHumidity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        maintemp1 = findViewById(R.id.maintemp1);
-        maintemp1.setTouchEnabled(true);
-        maintemp1.setPinchZoom(true);
+        mainhum1 = findViewById(R.id.mainhum1);
+        mainhum1.setTouchEnabled(true);
+        mainhum1.setPinchZoom(true);
 
 
-        mdb = FirebaseDatabase.getInstance().getReference().child("temp").child("temp1");
+        mdb = FirebaseDatabase.getInstance().getReference().child("hum").child("hum1");
 
         retrievedata();
 
@@ -72,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
                     showchart(datavals);
                 }
                 else {
-                    maintemp1.clear();
-                    maintemp1.invalidate();
+                    mainhum1.clear();
+                    mainhum1.invalidate();
                 }
             }
 
@@ -96,11 +96,11 @@ public class MainActivity extends AppCompatActivity {
         temp1ilds.clear();
         temp1ilds.add(temp1lds);
         temp1ld=new LineData(temp1ilds);
-        maintemp1.clear();
-        maintemp1.setData(temp1ld);
-        maintemp1.invalidate();
+        mainhum1.clear();
+        mainhum1.setData(temp1ld);
+        mainhum1.invalidate();
 
-        maintemp1.setNoDataText("Data not Available");
+        mainhum1.setNoDataText("Data not Available");
 
         //you can modify your line chart graph according to your requirement there are lots of method available in this library
         //now customize line chart
@@ -117,9 +117,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
     public void sendMessage(View view) {
-        Intent intent = new Intent(this, Humidity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
