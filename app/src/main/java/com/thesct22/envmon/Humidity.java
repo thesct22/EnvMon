@@ -142,10 +142,6 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
 
 
     }
-    public void sendMessage(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
