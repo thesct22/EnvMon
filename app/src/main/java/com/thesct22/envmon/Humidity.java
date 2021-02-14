@@ -2,6 +2,14 @@ package com.thesct22.envmon;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +17,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -17,6 +26,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-public class Humidity extends AppCompatActivity {
+public class Humidity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     LineChart mainhum1;
     private DatabaseReference mdb;
     ArrayList<Entry> temp1data;
@@ -34,19 +44,34 @@ public class Humidity extends AppCompatActivity {
     ArrayList<ILineDataSet> temp1ilds = new ArrayList<>();
     LineData temp1ld;
     private static final String TAG = "MainHumidity";
+    DrawerLayout dl;
+    NavigationView nv;
+    Toolbar tb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_humidity2);
         mainhum1 = findViewById(R.id.mainhum1);
         mainhum1.setTouchEnabled(true);
         mainhum1.setPinchZoom(true);
+
+        dl = findViewById(R.id.drawer_hum);
+        nv = findViewById(R.id.nav_hummain);
+        tb = findViewById(R.id.toolbarhum);
+
+        setSupportActionBar(tb);
+
+        nv.bringToFront();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, dl, tb, R.string.nd_open, R.string.nd_close);
+        dl.addDrawerListener(toggle);
+        toggle.syncState();
 
 
         mdb = FirebaseDatabase.getInstance().getReference().child("hum").child("hum1");
 
         retrievedata();
+        nv.setNavigationItemSelectedListener(this);
 
 
     }
@@ -120,6 +145,21 @@ public class Humidity extends AppCompatActivity {
     public void sendMessage(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.tempmain:
+                startActivity(new Intent(Humidity.this, MainActivity.class));
+                break;
+            case R.id.hummain:
+                startActivity(new Intent(Humidity.this, Humidity.class));
+                break;
+        }
+        return true;
     }
 
 }

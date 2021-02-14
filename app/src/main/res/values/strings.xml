@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">EnvMon</string>
+    <string name="nd_open">Open Navigation Drawer</string>
+    <string name="nd_close">Close Navigation Drawer</string>
 </resources>

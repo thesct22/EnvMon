@@ -1,7 +1,14 @@
 package com.thesct22.envmon;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+
+
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +16,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -17,6 +25,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     LineChart maintemp1;
     private DatabaseReference mdb;
     ArrayList<Entry> temp1data;
@@ -33,19 +42,34 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<ILineDataSet> temp1ilds = new ArrayList<>();
     LineData temp1ld;
     private static final String TAG = "MainActivity";
+    DrawerLayout dl;
+    NavigationView nv;
+    Toolbar tb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        dl = findViewById(R.id.drawer_temp);
+        nv = findViewById(R.id.nav_tempmain);
+        tb = findViewById(R.id.toolbartemp);
+
+        setSupportActionBar(tb);
+
+        nv.bringToFront();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, dl, tb, R.string.nd_open, R.string.nd_close);
+        dl.addDrawerListener(toggle);
+        toggle.syncState();
+
         maintemp1 = findViewById(R.id.maintemp1);
         maintemp1.setTouchEnabled(true);
         maintemp1.setPinchZoom(true);
 
 
         mdb = FirebaseDatabase.getInstance().getReference().child("temp").child("temp1");
-
         retrievedata();
+        nv.setNavigationItemSelectedListener(this);
 
 
     }
@@ -122,4 +146,18 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.tempmain:
+                startActivity(new Intent(MainActivity.this, MainActivity.class));
+                break;
+            case R.id.hummain:
+                startActivity(new Intent(MainActivity.this, Humidity.class));
+                break;
+        }
+        return true;
+    }
 }
