@@ -23,7 +23,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-
 public class MainActivity extends AppCompatActivity {
     LineChart maintemp1;
     private DatabaseReference mdb;
