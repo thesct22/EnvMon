@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -55,6 +56,7 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
         mainhum1 = findViewById(R.id.mainhum1);
         mainhum1.setTouchEnabled(true);
         mainhum1.setPinchZoom(true);
+        mainhum1.fitScreen();
 
         dl = findViewById(R.id.drawer_hum);
         nv = findViewById(R.id.nav_hummain);
@@ -117,7 +119,7 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
     private void showchart(ArrayList<Entry> showvals){
 
         temp1lds.setValues(showvals);
-        temp1lds.setLabel("temp1");
+        temp1lds.setLabel("humidity1");
         temp1ilds.clear();
         temp1ilds.add(temp1lds);
         temp1ld=new LineData(temp1ilds);
@@ -127,10 +129,9 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
 
         mainhum1.setNoDataText("Data not Available");
 
-        //you can modify your line chart graph according to your requirement there are lots of method available in this library
-        //now customize line chart
-
-        temp1lds.setColor(Color.BLUE);
+        XAxis xaxis=mainhum1.getXAxis();
+        xaxis.setAxisMinimum(temp1ld.getXMin() - 100f);
+        xaxis.setAxisMaximum(temp1ld.getXMax() + 100f);
         temp1lds.setCircleColor(Color.GREEN);
         temp1lds.setDrawCircles(true);
         temp1lds.setDrawCircleHole(true);

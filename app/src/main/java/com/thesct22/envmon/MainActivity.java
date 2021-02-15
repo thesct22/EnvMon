@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         maintemp1 = findViewById(R.id.maintemp1);
         maintemp1.setTouchEnabled(true);
         maintemp1.setPinchZoom(true);
+        maintemp1.fitScreen();
 
 
         mdb = FirebaseDatabase.getInstance().getReference().child("temp").child("temp1");
@@ -122,21 +124,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         maintemp1.clear();
         maintemp1.setData(temp1ld);
         maintemp1.invalidate();
-
+        maintemp1.setDescription(null);
         maintemp1.setNoDataText("Data not Available");
 
-        //you can modify your line chart graph according to your requirement there are lots of method available in this library
-        //now customize line chart
 
-        temp1lds.setColor(Color.BLUE);
+        XAxis xaxis=maintemp1.getXAxis();
+        xaxis.setAxisMinimum(temp1ld.getXMin() - 100f);
+        xaxis.setAxisMaximum(temp1ld.getXMax() + 100f);
         temp1lds.setCircleColor(Color.GREEN);
+
         temp1lds.setDrawCircles(true);
         temp1lds.setDrawCircleHole(true);
         temp1lds.setLineWidth(5);
         temp1lds.setCircleRadius(10);
         temp1lds.setCircleHoleRadius(10);
         temp1lds.setValueTextSize(10);
-        temp1lds.setValueTextColor(Color.WHITE);
+        temp1lds.setValueTextColor(Color.BLACK);
 
 
     }

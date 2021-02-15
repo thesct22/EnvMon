@@ -18,7 +18,6 @@
         app:headerLayout="@layout/headerfile"
         app:menu="@menu/main_menu" >
 
-
     </com.google.android.material.navigation.NavigationView>
 
 
@@ -47,9 +46,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.132"/>
-
+            app:layout_constraintTop_toBottomOf="@+id/toolbartemp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.drawerlayout.widget.DrawerLayout>
