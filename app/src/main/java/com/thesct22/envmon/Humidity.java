@@ -22,13 +22,16 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -74,6 +77,24 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, dl, tb, R.string.nd_open, R.string.nd_close);
         dl.addDrawerListener(toggle);
         toggle.syncState();
+
+
+        mainhum1 = findViewById(R.id.mainhum1);
+        mainhum1.setTouchEnabled(true);
+
+
+        // enable scaling and dragging
+        mainhum1.setDragEnabled(true);
+        mainhum1.setScaleEnabled(true);
+        // mChart.setScaleXEnabled(true);
+        // mChart.setScaleYEnabled(true);
+
+
+        mainhum1.setPinchZoom(true);
+        mainhum1.fitScreen();
+        MarkerView mv = new YourMarkerView(this, R.layout.tvcontent);
+        mv.setChartView(mainhum1); // For bounds control
+        mainhum1.setMarker(mv);
 
 
         mdb = FirebaseDatabase.getInstance().getReference().child("hum").child("hum1");
@@ -140,7 +161,13 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
         xaxis.setDrawLabels(true);
         xaxis.setAxisMinimum(temp1ld.getXMin() - 100f);
         xaxis.setAxisMaximum(temp1ld.getXMax() + 100f);
-
+        //xaxis.setTypeface(mTfLight);
+        xaxis.setTextSize(10f);
+        xaxis.setTextColor(Color.WHITE);
+        xaxis.setDrawAxisLine(false);
+        xaxis.setDrawGridLines(true);
+        xaxis.setTextColor(Color.rgb(255, 192, 56));
+        xaxis.setCenterAxisLabels(true);
         xaxis.setValueFormatter(new ValueFormatter() {
             private final SimpleDateFormat mFormat = new SimpleDateFormat("dd MMM HH:mm", Locale.ENGLISH);
             @Override
@@ -149,6 +176,20 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
                 return mFormat.format(new Date(millis));
             }
         });
+
+        YAxis leftAxis = mainhum1.getAxisLeft();
+        leftAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
+        //leftAxis.setTypeface(mTfLight);
+        leftAxis.setTextColor(ColorTemplate.getHoloBlue());
+        leftAxis.setDrawGridLines(true);
+        leftAxis.setGranularityEnabled(true);
+//        leftAxis.setAxisMinimum(0f);
+//        leftAxis.setAxisMaximum(170f);
+//        leftAxis.setYOffset(-9f);
+        leftAxis.setTextColor(Color.rgb(255, 192, 56));
+
+        YAxis rightAxis = mainhum1.getAxisRight();
+        rightAxis.setEnabled(false);
 
         temp1lds.setCircleColor(Color.GREEN);
         temp1lds.setDrawCircles(true);
