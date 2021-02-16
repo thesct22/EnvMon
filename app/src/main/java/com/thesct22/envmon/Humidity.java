@@ -26,6 +26,8 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
@@ -34,7 +36,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 
 public class Humidity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -130,8 +136,20 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
         mainhum1.setNoDataText("Data not Available");
 
         XAxis xaxis=mainhum1.getXAxis();
+        xaxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xaxis.setDrawLabels(true);
         xaxis.setAxisMinimum(temp1ld.getXMin() - 100f);
         xaxis.setAxisMaximum(temp1ld.getXMax() + 100f);
+
+        xaxis.setValueFormatter(new ValueFormatter() {
+            private final SimpleDateFormat mFormat = new SimpleDateFormat("dd MMM HH:mm", Locale.ENGLISH);
+            @Override
+            public String getFormattedValue(float value) {
+                long millis = TimeUnit.HOURS.toMillis((long) value);
+                return mFormat.format(new Date(millis));
+            }
+        });
+
         temp1lds.setCircleColor(Color.GREEN);
         temp1lds.setDrawCircles(true);
         temp1lds.setDrawCircleHole(true);
