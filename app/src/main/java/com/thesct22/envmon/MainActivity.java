@@ -9,13 +9,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 
 
-
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout dl;
     NavigationView nv;
     Toolbar tb;
-
+    FloatingActionButton fab_one;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +75,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, dl, tb, R.string.nd_open, R.string.nd_close);
         dl.addDrawerListener(toggle);
         toggle.syncState();
+
+
+        fab_one = findViewById(R.id.fabtemp);
+
+        fab_one.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent prof_intent = new Intent(getApplicationContext(),CheckboxActivity.class);
+
+                Pair[] pairs = new Pair[1];
+                pairs[0] = new Pair<View,String>(fab_one,"activity_trans");
+
+
+                ActivityOptions options =ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
+                startActivity(prof_intent,options.toBundle());
+            }
+        });
+
 
         maintemp1 = findViewById(R.id.maintemp1);
         maintemp1.setTouchEnabled(true);

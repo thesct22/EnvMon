@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,7 +125,7 @@ public class CheckboxActivity extends AppCompatActivity {
             }
         }
         else{
-            for (int i=1;i<=10;i++) {
+            for (int i=0;i<10;i++) {
                 sensorArray[i] = true;
                 chklist.get(i).setChecked(true);
             }
