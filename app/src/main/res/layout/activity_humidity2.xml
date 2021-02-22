@@ -21,34 +21,47 @@
 
     </com.google.android.material.navigation.NavigationView>
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".Humidity">
+        android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbarhum"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="#00008577"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/menubar" />
+        <androidx.constraintlayout.widget.ConstraintLayout
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/mainhum1"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarhum"/>
+            android:layout_height="match_parent"
+            tools:context=".Humidity">
 
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbarhum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="#00008577"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:navigationIcon="@drawable/menubar" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/mainhum1"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbarhum"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabhum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:transitionName="tocb"
+            android:contentDescription="Select Humidity"
+            app:srcCompat="@drawable/ic_baseline_check_box_24"
+            app:tint="#3700B3"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.drawerlayout.widget.DrawerLayout>

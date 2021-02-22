@@ -11,12 +11,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -32,6 +34,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -57,6 +60,7 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
     DrawerLayout dl;
     NavigationView nv;
     Toolbar tb;
+    FloatingActionButton fab_one;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +82,19 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
         dl.addDrawerListener(toggle);
         toggle.syncState();
 
+
+        fab_one = findViewById(R.id.fabhum);
+
+        fab_one.setOnClickListener(v -> {
+            Intent prof_intent = new Intent(getApplicationContext(),CheckboxActivity.class);
+
+            Pair[] pairs = new Pair[1];
+            pairs[0] = new Pair<View,String>(fab_one,"activity_trans");
+
+
+            ActivityOptions options =ActivityOptions.makeSceneTransitionAnimation(Humidity.this, pairs);
+            startActivity(prof_intent,options.toBundle());
+        });
 
         mainhum1 = findViewById(R.id.mainhum1);
         mainhum1.setTouchEnabled(true);
