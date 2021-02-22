@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +18,13 @@ public class CheckboxActivity extends AppCompatActivity {
     Button btn;
     List <CheckBox> chklist;
     envmon em;
+    Toolbar tb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkbox);
+        tb = findViewById(R.id.toolbarcheck);
+        tb.setNavigationOnClickListener(v -> finish());
         em=new envmon();
         sensorArray=em.getSomeVariable();
         chklist= new ArrayList<CheckBox>();
