@@ -1,27 +1,20 @@
 package com.thesct22.envmon;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-
-
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Message;
-import android.util.Log;
 import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.MarkerView;
@@ -30,7 +23,6 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
@@ -53,7 +45,7 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
     LineChart mainhum1;
     private DatabaseReference mdb;
     ArrayList<Entry> temp1data;
-    LineDataSet temp1lds= new LineDataSet(null, null);
+    //LineDataSet temp1lds= new LineDataSet(null, null);
     ArrayList<ILineDataSet> temp1ilds = new ArrayList<>();
     LineData temp1ld;
     private static final String TAG = "MainHumidity";
@@ -114,7 +106,7 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
         mainhum1.setMarker(mv);
 
 
-        mdb = FirebaseDatabase.getInstance().getReference().child("hum").child("hum1");
+        mdb = FirebaseDatabase.getInstance().getReference().child("hum");
 
         retrievedata();
         nv.setNavigationItemSelectedListener(this);
@@ -128,17 +120,20 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                ArrayList<Entry>datavals= new ArrayList<>();
+                ArrayList<ArrayList<Entry>>datavals= new ArrayList<ArrayList<Entry>>();
                 if(dataSnapshot.hasChildren()){
 
                     for(DataSnapshot mydss:dataSnapshot.getChildren()){
+                        ArrayList<Entry> midOne= new ArrayList<>();
+                        for(DataSnapshot mydsscld:mydss.getChildren()) {
+                            String tsstr = mydsscld.getKey();
+                            long ts = Long.parseLong(tsstr);
+                            Long templong = mydsscld.getValue(Long.class);
+                            int tempint = templong.intValue();
 
-                        String tsstr = mydss.getKey();
-                        long ts=Long.parseLong(tsstr);
-                        Long templong=mydss.getValue(Long.class);
-                        int tempint=templong.intValue();
-
-                        datavals.add(new Entry((int)ts,tempint));
+                            midOne.add(new Entry((long) ts, tempint));
+                        }
+                        datavals.add(midOne);
                     }
                     showchart(datavals);
                 }
@@ -160,12 +155,21 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
         });
 
     }
-    private void showchart(ArrayList<Entry> showvals){
-
-        temp1lds.setValues(showvals);
-        temp1lds.setLabel("humidity1");
+    private void showchart(ArrayList<ArrayList<Entry>> showvals){
         temp1ilds.clear();
-        temp1ilds.add(temp1lds);
+        for(int i=0;i<showvals.size();i++) {
+            LineDataSet temp1lds = new LineDataSet(showvals.get(i),"humdity"+(i+1));
+            temp1lds.setCircleColor(Color.GREEN);
+            temp1lds.setDrawCircles(true);
+            temp1lds.setDrawCircleHole(true);
+            temp1lds.setLineWidth(5);
+            temp1lds.setCircleRadius(10);
+            temp1lds.setCircleHoleRadius(10);
+            temp1lds.setValueTextSize(10);
+            temp1lds.setValueTextColor(Color.WHITE);
+            temp1ilds.add(temp1lds);
+        }
+
         temp1ld=new LineData(temp1ilds);
         mainhum1.clear();
         mainhum1.setData(temp1ld);
@@ -208,14 +212,7 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
         YAxis rightAxis = mainhum1.getAxisRight();
         rightAxis.setEnabled(false);
 
-        temp1lds.setCircleColor(Color.GREEN);
-        temp1lds.setDrawCircles(true);
-        temp1lds.setDrawCircleHole(true);
-        temp1lds.setLineWidth(5);
-        temp1lds.setCircleRadius(10);
-        temp1lds.setCircleHoleRadius(10);
-        temp1lds.setValueTextSize(10);
-        temp1lds.setValueTextColor(Color.WHITE);
+
 
 
     }
