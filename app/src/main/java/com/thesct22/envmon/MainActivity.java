@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FloatingActionButton fab_one;
     envmon en;
     ArrayList<Integer> colours;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

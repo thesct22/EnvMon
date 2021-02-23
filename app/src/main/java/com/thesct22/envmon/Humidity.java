@@ -53,6 +53,7 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
     Toolbar tb;
     FloatingActionButton fab_one;
     envmon en;
+    ArrayList<Integer> colours;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,18 +170,20 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
     private void showchart(ArrayList<ArrayList<Entry>> showvals){
         temp1ilds.clear();
         en=new envmon();
+        colours=en.getcolor();
         boolean chkarr[]=en.getSomeVariable();
         for(int i=0;i<showvals.size();i++) {
             if(chkarr[i]) {
                 LineDataSet temp1lds = new LineDataSet(showvals.get(i), "humdity" + (i + 1));
-                //temp1lds.setCircleColor(Color.GREEN);
-                //temp1lds.setDrawCircles(true);
-                //temp1lds.setDrawCircleHole(true);
-                //temp1lds.setLineWidth(5);
-                //temp1lds.setCircleRadius(10);
-                //temp1lds.setCircleHoleRadius(10);
-                //temp1lds.setValueTextSize(10);
-                //temp1lds.setValueTextColor(Color.WHITE);
+                temp1lds.setColor(colours.get(i).intValue());
+                temp1lds.setCircleColor(Color.RED);
+                temp1lds.setDrawCircles(true);
+                temp1lds.setDrawCircleHole(true);
+                temp1lds.setLineWidth(2);
+                temp1lds.setCircleRadius(4);
+                temp1lds.setCircleHoleRadius(4);
+                temp1lds.setValueTextSize(0);
+                //temp1lds.setValueTextColor(Color.rgb(255, 192, 56));
                 temp1ilds.add(temp1lds);
             }
         }
