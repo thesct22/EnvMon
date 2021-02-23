@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView nv;
     Toolbar tb;
     FloatingActionButton fab_one;
+    envmon en;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,17 +162,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     private void showchart(ArrayList<ArrayList<Entry>> showvals){
         temp1ilds.clear();
+        en=new envmon();
+        boolean chkarr[]=en.getSomeVariable();
         for(int i=0;i<showvals.size();i++) {
-            LineDataSet temp1lds = new LineDataSet(showvals.get(i),"temperature"+(i+1));
-            //temp1lds.setCircleColor(Color.GREEN);
-            //temp1lds.setDrawCircles(true);
-            //temp1lds.setDrawCircleHole(true);
-            //temp1lds.setLineWidth(5);
-            //temp1lds.setCircleRadius(10);
-            //temp1lds.setCircleHoleRadius(10);
-            //temp1lds.setValueTextSize(10);
-            //temp1lds.setValueTextColor(Color.WHITE);
-            temp1ilds.add(temp1lds);
+            if(chkarr[i]) {
+                LineDataSet temp1lds = new LineDataSet(showvals.get(i), "temperature" + (i + 1));
+                //temp1lds.setCircleColor(Color.GREEN);
+                //temp1lds.setDrawCircles(true);
+                //temp1lds.setDrawCircleHole(true);
+                //temp1lds.setLineWidth(5);
+                //temp1lds.setCircleRadius(10);
+                //temp1lds.setCircleHoleRadius(10);
+                //temp1lds.setValueTextSize(10);
+                //temp1lds.setValueTextColor(Color.WHITE);
+                temp1ilds.add(temp1lds);
+            }
         }
 
         temp1ld=new LineData(temp1ilds);
