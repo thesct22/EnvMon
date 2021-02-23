@@ -202,7 +202,7 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
         xaxis.setTextColor(Color.WHITE);
         xaxis.setDrawAxisLine(false);
         xaxis.setDrawGridLines(true);
-        xaxis.setTextColor(Color.rgb(255, 192, 56));
+        xaxis.setTextColor(Color.RED);
         xaxis.setCenterAxisLabels(true);
         xaxis.setValueFormatter(new ValueFormatter() {
             private final SimpleDateFormat mFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
@@ -214,7 +214,7 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
         });
 
         YAxis leftAxis = mainhum1.getAxisLeft();
-        leftAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
+        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
         //leftAxis.setTypeface(mTfLight);
         leftAxis.setTextColor(ColorTemplate.getHoloBlue());
         leftAxis.setDrawGridLines(true);
@@ -222,12 +222,12 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
 //        leftAxis.setAxisMinimum(0f);
 //        leftAxis.setAxisMaximum(170f);
 //        leftAxis.setYOffset(-9f);
-        leftAxis.setTextColor(Color.rgb(255, 192, 56));
+        leftAxis.setTextColor(Color.RED);
 
         YAxis rightAxis = mainhum1.getAxisRight();
         rightAxis.setEnabled(false);
 
-
+        mainhum1.getLegend().setTextColor(Color.RED);
 
 
     }
