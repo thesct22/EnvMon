@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void showchart(ArrayList<ArrayList<Entry>> showvals){
         temp1ilds.clear();
         for(int i=0;i<showvals.size();i++) {
-            LineDataSet temp1lds = new LineDataSet(showvals.get(i),"humdity"+(i+1));
+            LineDataSet temp1lds = new LineDataSet(showvals.get(i),"temperature"+(i+1));
             //temp1lds.setCircleColor(Color.GREEN);
             //temp1lds.setDrawCircles(true);
             //temp1lds.setDrawCircleHole(true);
