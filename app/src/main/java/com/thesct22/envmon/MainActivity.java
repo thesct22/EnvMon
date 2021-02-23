@@ -51,8 +51,7 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     LineChart maintemp1;
     private DatabaseReference mdb;
-    ArrayList<Entry> temp1data;
-    LineDataSet temp1lds= new LineDataSet(null, null);
+
     ArrayList<ILineDataSet> temp1ilds = new ArrayList<>();
     LineData temp1ld;
     private static final String TAG = "MainActivity";
@@ -112,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mv.setChartView(maintemp1); // For bounds control
         maintemp1.setMarker(mv);
 
-        mdb = FirebaseDatabase.getInstance().getReference().child("temp").child("temp1");
+        mdb = FirebaseDatabase.getInstance().getReference().child("temp");
         retrievedata();
         nv.setNavigationItemSelectedListener(this);
 
@@ -125,17 +124,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                ArrayList<Entry>datavals= new ArrayList<>();
+                ArrayList<ArrayList<Entry>>datavals= new ArrayList<ArrayList<Entry>>();
                 if(dataSnapshot.hasChildren()){
 
                     for(DataSnapshot mydss:dataSnapshot.getChildren()){
+                        ArrayList<Entry> midOne= new ArrayList<>();
+                        for(DataSnapshot mydsscld:mydss.getChildren()) {
+                            String tsstr = mydsscld.getKey();
+                            long ts = Long.parseLong(tsstr);
+                            Long templong = mydsscld.getValue(Long.class);
+                            int tempint = templong.intValue();
 
-                        String tsstr = mydss.getKey();
-                        long ts=Long.parseLong(tsstr);
-                        Long templong=mydss.getValue(Long.class);
-                        int tempint=templong.intValue();
-
-                        datavals.add(new Entry((int)ts,tempint));
+                            midOne.add(new Entry((long) ts, tempint));
+                        }
+                        datavals.add(midOne);
                     }
                     showchart(datavals);
                 }
@@ -157,12 +159,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
     }
-    private void showchart(ArrayList<Entry> showvals){
-
-        temp1lds.setValues(showvals);
-        temp1lds.setLabel("temp1");
+    private void showchart(ArrayList<ArrayList<Entry>> showvals){
         temp1ilds.clear();
-        temp1ilds.add(temp1lds);
+        for(int i=0;i<showvals.size();i++) {
+            LineDataSet temp1lds = new LineDataSet(showvals.get(i),"humdity"+(i+1));
+            //temp1lds.setCircleColor(Color.GREEN);
+            //temp1lds.setDrawCircles(true);
+            //temp1lds.setDrawCircleHole(true);
+            //temp1lds.setLineWidth(5);
+            //temp1lds.setCircleRadius(10);
+            //temp1lds.setCircleHoleRadius(10);
+            //temp1lds.setValueTextSize(10);
+            //temp1lds.setValueTextColor(Color.WHITE);
+            temp1ilds.add(temp1lds);
+        }
+
         temp1ld=new LineData(temp1ilds);
         maintemp1.clear();
         maintemp1.setData(temp1ld);
@@ -205,18 +216,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         YAxis rightAxis = maintemp1.getAxisRight();
         rightAxis.setEnabled(false);
-
-
-        temp1lds.setCircleColor(Color.GREEN);
-
-        temp1lds.setDrawCircles(true);
-        temp1lds.setDrawCircleHole(true);
-        temp1lds.setLineWidth(5);
-        temp1lds.setCircleRadius(10);
-        temp1lds.setCircleHoleRadius(10);
-        temp1lds.setValueTextSize(10);
-        temp1lds.setValueTextColor(Color.BLACK);
-
 
     }
 

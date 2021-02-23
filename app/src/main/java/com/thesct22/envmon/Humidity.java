@@ -44,8 +44,6 @@ import java.util.concurrent.TimeUnit;
 public class Humidity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     LineChart mainhum1;
     private DatabaseReference mdb;
-    ArrayList<Entry> temp1data;
-    //LineDataSet temp1lds= new LineDataSet(null, null);
     ArrayList<ILineDataSet> temp1ilds = new ArrayList<>();
     LineData temp1ld;
     private static final String TAG = "MainHumidity";
