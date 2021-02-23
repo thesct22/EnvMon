@@ -159,14 +159,14 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
         temp1ilds.clear();
         for(int i=0;i<showvals.size();i++) {
             LineDataSet temp1lds = new LineDataSet(showvals.get(i),"humdity"+(i+1));
-            temp1lds.setCircleColor(Color.GREEN);
-            temp1lds.setDrawCircles(true);
-            temp1lds.setDrawCircleHole(true);
-            temp1lds.setLineWidth(5);
-            temp1lds.setCircleRadius(10);
-            temp1lds.setCircleHoleRadius(10);
-            temp1lds.setValueTextSize(10);
-            temp1lds.setValueTextColor(Color.WHITE);
+            //temp1lds.setCircleColor(Color.GREEN);
+            //temp1lds.setDrawCircles(true);
+            //temp1lds.setDrawCircleHole(true);
+            //temp1lds.setLineWidth(5);
+            //temp1lds.setCircleRadius(10);
+            //temp1lds.setCircleHoleRadius(10);
+            //temp1lds.setValueTextSize(10);
+            //temp1lds.setValueTextColor(Color.WHITE);
             temp1ilds.add(temp1lds);
         }
 
