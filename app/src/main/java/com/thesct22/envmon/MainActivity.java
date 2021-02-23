@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar tb;
     FloatingActionButton fab_one;
     envmon en;
-
+    ArrayList<Integer> colours;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -173,18 +173,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void showchart(ArrayList<ArrayList<Entry>> showvals){
         temp1ilds.clear();
         en=new envmon();
+        colours=en.getcolor();
         boolean chkarr[]=en.getSomeVariable();
         for(int i=0;i<showvals.size();i++) {
             if(chkarr[i]) {
                 LineDataSet temp1lds = new LineDataSet(showvals.get(i), "temperature" + (i + 1));
-                //temp1lds.setCircleColor(Color.GREEN);
-                //temp1lds.setDrawCircles(true);
-                //temp1lds.setDrawCircleHole(true);
-                //temp1lds.setLineWidth(5);
-                //temp1lds.setCircleRadius(10);
-                //temp1lds.setCircleHoleRadius(10);
-                //temp1lds.setValueTextSize(10);
-                //temp1lds.setValueTextColor(Color.WHITE);
+                temp1lds.setColor(colours.get(i).intValue());
+                temp1lds.setCircleColor(Color.RED);
+                temp1lds.setDrawCircles(true);
+                temp1lds.setDrawCircleHole(true);
+                temp1lds.setLineWidth(2);
+                temp1lds.setCircleRadius(4);
+                temp1lds.setCircleHoleRadius(4);
+                temp1lds.setValueTextSize(0);
+                //temp1lds.setValueTextColor(Color.rgb(255, 192, 56));
                 temp1ilds.add(temp1lds);
             }
         }
@@ -195,9 +197,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         maintemp1.invalidate();
         maintemp1.setDescription(null);
         maintemp1.setNoDataText("Data not Available");
-
+        maintemp1.getLegend().setWordWrapEnabled(true);
 
         XAxis xaxis=maintemp1.getXAxis();
+        //xaxis.setLabelRotationAngle(-30f);
+
         xaxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xaxis.setDrawLabels(true);
         xaxis.setAxisMinimum(temp1ld.getXMin() - 100f);
@@ -210,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         xaxis.setTextColor(Color.rgb(255, 192, 56));
         xaxis.setCenterAxisLabels(true);
         xaxis.setValueFormatter(new ValueFormatter() {
-            private final SimpleDateFormat mFormat = new SimpleDateFormat("dd MMM HH:mm", Locale.ENGLISH);
+            private final SimpleDateFormat mFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
             @Override
             public String getFormattedValue(float value) {
                 long millis = TimeUnit.HOURS.toMillis((long) value);
@@ -231,6 +235,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         YAxis rightAxis = maintemp1.getAxisRight();
         rightAxis.setEnabled(false);
+
 
     }
 

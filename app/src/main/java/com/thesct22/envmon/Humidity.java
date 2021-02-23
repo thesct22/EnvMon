@@ -189,8 +189,8 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
         mainhum1.clear();
         mainhum1.setData(temp1ld);
         mainhum1.invalidate();
-
         mainhum1.setNoDataText("Data not Available");
+        mainhum1.getLegend().setWordWrapEnabled(true);
 
         XAxis xaxis=mainhum1.getXAxis();
         xaxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -205,7 +205,7 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
         xaxis.setTextColor(Color.rgb(255, 192, 56));
         xaxis.setCenterAxisLabels(true);
         xaxis.setValueFormatter(new ValueFormatter() {
-            private final SimpleDateFormat mFormat = new SimpleDateFormat("dd MMM HH:mm", Locale.ENGLISH);
+            private final SimpleDateFormat mFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
             @Override
             public String getFormattedValue(float value) {
                 long millis = TimeUnit.HOURS.toMillis((long) value);
