@@ -12,6 +12,7 @@ import androidx.core.view.GravityCompat;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
@@ -78,21 +79,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
 
-        fab_one = findViewById(R.id.fabtemp);
+        int orientation = this.getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            fab_one = findViewById(R.id.fabtemp);
 
-        fab_one.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent prof_intent = new Intent(getApplicationContext(),CheckboxActivity.class);
+            fab_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent prof_intent = new Intent(getApplicationContext(),CheckboxActivity.class);
 
-                Pair[] pairs = new Pair[1];
-                pairs[0] = new Pair<View,String>(fab_one,"activity_trans");
+                    Pair[] pairs = new Pair[1];
+                    pairs[0] = new Pair<View,String>(fab_one,"activity_trans");
 
 
-                ActivityOptions options =ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
-                startActivity(prof_intent,options.toBundle());
-            }
-        });
+                    ActivityOptions options =ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
+                    startActivity(prof_intent,options.toBundle());
+                }
+            });
+        }
 
 
         maintemp1 = findViewById(R.id.maintemp1);

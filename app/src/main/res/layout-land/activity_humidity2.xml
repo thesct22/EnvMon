@@ -47,7 +47,7 @@
                 android:id="@+id/mainhum1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginVertical="?attr/actionBarSize"
+                android:layout_marginTop="?attr/actionBarSize"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -56,15 +56,15 @@
                 app:layout_constraintVertical_bias="0.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabhum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="16dp"
-            android:transitionName="tocb"
-            android:contentDescription="Select Humidity"
-            app:srcCompat="@drawable/ic_baseline_check_box_24"
-            app:tint="#3700B3"/>
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/fabhum"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="bottom|right"-->
+<!--            android:layout_margin="16dp"-->
+<!--            android:transitionName="tocb"-->
+<!--            android:contentDescription="Select Humidity"-->
+<!--            app:srcCompat="@drawable/ic_baseline_check_box_24"-->
+<!--            app:tint="#3700B3"/>-->
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -3,6 +3,7 @@ package com.thesct22.envmon;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Pair;
@@ -51,6 +52,7 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
     NavigationView nv;
     Toolbar tb;
     FloatingActionButton fab_one;
+    envmon en;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,19 +74,24 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
         dl.addDrawerListener(toggle);
         toggle.syncState();
 
+        int orientation = this.getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            fab_one = findViewById(R.id.fabhum);
 
-        fab_one = findViewById(R.id.fabhum);
+            fab_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent prof_intent = new Intent(getApplicationContext(),CheckboxActivity.class);
 
-        fab_one.setOnClickListener(v -> {
-            Intent prof_intent = new Intent(getApplicationContext(),CheckboxActivity.class);
-
-            Pair[] pairs = new Pair[1];
-            pairs[0] = new Pair<View,String>(fab_one,"activity_trans");
+                    Pair[] pairs = new Pair[1];
+                    pairs[0] = new Pair<View,String>(fab_one,"activity_trans");
 
 
-            ActivityOptions options =ActivityOptions.makeSceneTransitionAnimation(Humidity.this, pairs);
-            startActivity(prof_intent,options.toBundle());
-        });
+                    ActivityOptions options =ActivityOptions.makeSceneTransitionAnimation(Humidity.this, pairs);
+                    startActivity(prof_intent,options.toBundle());
+                }
+            });
+        }
 
         mainhum1 = findViewById(R.id.mainhum1);
         mainhum1.setTouchEnabled(true);
@@ -110,6 +117,12 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
         nv.setNavigationItemSelectedListener(this);
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        retrievedata();
     }
 
     private void retrievedata(){
@@ -155,17 +168,21 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
     }
     private void showchart(ArrayList<ArrayList<Entry>> showvals){
         temp1ilds.clear();
+        en=new envmon();
+        boolean chkarr[]=en.getSomeVariable();
         for(int i=0;i<showvals.size();i++) {
-            LineDataSet temp1lds = new LineDataSet(showvals.get(i),"humdity"+(i+1));
-            //temp1lds.setCircleColor(Color.GREEN);
-            //temp1lds.setDrawCircles(true);
-            //temp1lds.setDrawCircleHole(true);
-            //temp1lds.setLineWidth(5);
-            //temp1lds.setCircleRadius(10);
-            //temp1lds.setCircleHoleRadius(10);
-            //temp1lds.setValueTextSize(10);
-            //temp1lds.setValueTextColor(Color.WHITE);
-            temp1ilds.add(temp1lds);
+            if(chkarr[i]) {
+                LineDataSet temp1lds = new LineDataSet(showvals.get(i), "humdity" + (i + 1));
+                //temp1lds.setCircleColor(Color.GREEN);
+                //temp1lds.setDrawCircles(true);
+                //temp1lds.setDrawCircleHole(true);
+                //temp1lds.setLineWidth(5);
+                //temp1lds.setCircleRadius(10);
+                //temp1lds.setCircleHoleRadius(10);
+                //temp1lds.setValueTextSize(10);
+                //temp1lds.setValueTextColor(Color.WHITE);
+                temp1ilds.add(temp1lds);
+            }
         }
 
         temp1ld=new LineData(temp1ilds);
