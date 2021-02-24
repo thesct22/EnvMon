@@ -3,6 +3,7 @@ package com.thesct22.envmon;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.widget.Toolbar;
@@ -12,14 +13,19 @@ import androidx.core.view.GravityCompat;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
 import android.util.Pair;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -47,6 +53,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import static android.content.res.Configuration.UI_MODE_NIGHT_MASK;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -121,7 +128,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         retrievedata();
         nv.setNavigationItemSelectedListener(this);
 
+        MenuItem mitem=nv.getMenu().findItem(R.id.nav_item1);
 
+        Switch sw=(Switch) mitem.getActionView();
+        int nightModeFlags =
+                tb.getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        switch (nightModeFlags) {
+            case Configuration.UI_MODE_NIGHT_YES:
+                sw.setChecked(true);
+                break;
+
+            case Configuration.UI_MODE_NIGHT_NO:
+                sw.setChecked(false);
+                break;
+
+            case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                sw.setChecked(false);
+                break;
+        }
+        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // do something, the isChecked will be
+                // true if the switch is in the On position
+                if(isChecked){
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                }
+                else{
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+            }
+        });
     }
 
     @Override
@@ -253,7 +289,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.hummain:
                 startActivity(new Intent(MainActivity.this, Humidity.class));
                 break;
+//            case R.id.nav_item1:
+//                setdarkmode(item);
+//                break;
         }
         return true;
     }
+
+
+
+
+//    public void setdarkmode(MenuItem item){
+//        Switch sw= (Switch) item.getActionView();
+//        int nightModeFlags =
+//                tb.getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+//        switch (nightModeFlags) {
+//            case Configuration.UI_MODE_NIGHT_YES:
+//                sw.setChecked(true);
+//                break;
+//
+//            case Configuration.UI_MODE_NIGHT_NO:
+//                sw.setChecked(false);
+//                break;
+//
+//            case Configuration.UI_MODE_NIGHT_UNDEFINED:
+//                sw.setChecked(false);
+//                break;
+//        }
+//        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                // do something, the isChecked will be
+//                // true if the switch is in the On position
+//                if(isChecked){
+//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//                }
+//                else{
+//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//                }
+//            }
+//        });
+//    }
 }
