@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FloatingActionButton fab_one;
     envmon en;
     ArrayList<Integer> colours;
+    Switch sw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         MenuItem mitem=nv.getMenu().findItem(R.id.nav_item1);
 
-        Switch sw=(Switch) mitem.getActionView();
+        sw=(Switch) mitem.getActionView();
         int nightModeFlags =
                 tb.getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         switch (nightModeFlags) {
@@ -162,8 +163,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onResume() {
+        MenuItem mitem=nv.getMenu().findItem(R.id.nav_item1);
+        sw=(Switch) mitem.getActionView();
+        int nightModeFlags =
+                nv.getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        switch (nightModeFlags) {
+            case Configuration.UI_MODE_NIGHT_YES:
+                sw.setChecked(true);
+                break;
+
+            case Configuration.UI_MODE_NIGHT_NO:
+                sw.setChecked(false);
+                break;
+
+            case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                sw.setChecked(false);
+                break;
+        }
+        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // do something, the isChecked will be
+                // true if the switch is in the On position
+                if(isChecked){
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                }
+                else{
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+            }
+        });
         super.onResume();
         retrievedata();
+    }
+    @Override
+    public void onPause() {
+
+        sw.setOnCheckedChangeListener(null);
+        super.onPause();
+    }
+    @Override
+    public void onStop() {
+
+        sw.setOnCheckedChangeListener(null);
+        super.onStop();
     }
 
     private void retrievedata(){
