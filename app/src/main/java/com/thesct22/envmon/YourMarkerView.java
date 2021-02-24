@@ -28,13 +28,12 @@ public class YourMarkerView extends MarkerView {
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
 
-        DateFormat simple = new SimpleDateFormat("dd MMM yyyy HH:mm:ss");
+        DateFormat simple = new SimpleDateFormat("dd/MMM/yyyy  HH:mm:ss");
 
         Date result = new Date((long) e.getX());
 
-        tvContent.setText("" + e.getY() + "  " + simple.format(result));
+        tvContent.setText("  " + e.getY() + ",  " + simple.format(result)+ "  ");
 
-        // this will perform necessary layouting
         super.refreshContent(e, highlight);
     }
 
@@ -45,7 +44,7 @@ public class YourMarkerView extends MarkerView {
 
         if(mOffset == null) {
             // center the marker horizontally and vertically
-            mOffset = new MPPointF(-(getWidth() / 2), -getHeight());
+            mOffset = new MPPointF(-(getWidth() / 2), -(getHeight()/2));
         }
 
         return mOffset;
