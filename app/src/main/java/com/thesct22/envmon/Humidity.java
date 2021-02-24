@@ -9,11 +9,14 @@ import android.os.Bundle;
 import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -54,6 +57,7 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
     FloatingActionButton fab_one;
     envmon en;
     ArrayList<Integer> colours;
+    Switch sw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,14 +121,40 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
         retrievedata();
         nv.setNavigationItemSelectedListener(this);
 
+        MenuItem mitem=nv.getMenu().findItem(R.id.nav_item1);
+
+        sw=(Switch) mitem.getActionView();
+        int nightModeFlags =
+                nv.getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        switch (nightModeFlags) {
+            case Configuration.UI_MODE_NIGHT_YES:
+                sw.setChecked(true);
+                break;
+
+            case Configuration.UI_MODE_NIGHT_NO:
+                sw.setChecked(false);
+                break;
+
+            case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                sw.setChecked(false);
+                break;
+        }
+        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // do something, the isChecked will be
+                // true if the switch is in the On position
+                if(isChecked){
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                }
+                else{
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+            }
+        });
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        retrievedata();
-    }
+
 
     private void retrievedata(){
         // Read from the database
