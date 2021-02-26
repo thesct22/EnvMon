@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <group android:checkableBehavior="single">
 
 
         <item
             android:id="@+id/tempmain"
-            android:title="Main Temperature" />
+            android:title="@string/main_temperature"
+            tools:ignore="MenuTitle"/>
 
 
         <item
             android:id="@+id/hummain"
-            android:title="Main Humidity" />
+            android:title="@string/main_humidity"
+            tools:ignore="MenuTitle"
+            />
 
     </group>
     <item
         android:id="@+id/nav_item1"
-        android:title="DarkMode"
-        app:actionLayout="@layout/layout_switch"/>
+        android:title="@string/dark_mode"
+        app:actionLayout="@layout/layout_switch"
+        app:showAsAction="always"
+        tools:ignore="MenuTitle"/>
+
 
 
 </menu>

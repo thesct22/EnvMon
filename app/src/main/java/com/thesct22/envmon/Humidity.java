@@ -10,13 +10,13 @@ import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -57,7 +57,7 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
     FloatingActionButton fab_one;
     envmon en;
     ArrayList<Integer> colours;
-    Switch sw;
+    SwitchCompat sw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,8 +105,8 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
         // enable scaling and dragging
         mainhum1.setDragEnabled(true);
         mainhum1.setScaleEnabled(true);
-        // mChart.setScaleXEnabled(true);
-        // mChart.setScaleYEnabled(true);
+         mainhum1.setScaleXEnabled(true);
+         mainhum1.setScaleYEnabled(true);
 
 
         mainhum1.setPinchZoom(true);
@@ -123,7 +123,7 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
 
         MenuItem mitem=nv.getMenu().findItem(R.id.nav_item1);
 
-        sw=(Switch) mitem.getActionView();
+        sw=(SwitchCompat) mitem.getActionView();
         int nightModeFlags =
                 nv.getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         switch (nightModeFlags) {
@@ -157,7 +157,7 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     protected void onResume() {
         MenuItem mitem=nv.getMenu().findItem(R.id.nav_item1);
-        sw=(Switch) mitem.getActionView();
+        sw=(SwitchCompat) mitem.getActionView();
         int nightModeFlags =
                 nv.getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         switch (nightModeFlags) {

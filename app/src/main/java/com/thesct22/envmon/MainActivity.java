@@ -5,31 +5,23 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.drawerlayout.widget.DrawerLayout;
-
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
 
 
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Message;
-import android.util.Log;
 import android.util.Pair;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.IMarker;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -53,8 +45,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import static android.content.res.Configuration.UI_MODE_NIGHT_MASK;
-
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     LineChart maintemp1;
@@ -69,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FloatingActionButton fab_one;
     envmon en;
     ArrayList<Integer> colours;
-    Switch sw;
+    SwitchCompat sw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,13 +101,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         maintemp1 = findViewById(R.id.maintemp1);
         maintemp1.setTouchEnabled(true);
 
-
         // enable scaling and dragging
         maintemp1.setDragEnabled(true);
         maintemp1.setScaleEnabled(true);
-        // mChart.setScaleXEnabled(true);
-        // mChart.setScaleYEnabled(true);
-
+        maintemp1.setScaleXEnabled(true);
+        maintemp1.setScaleYEnabled(true);
 
         maintemp1.setPinchZoom(true);
         maintemp1.fitScreen();
@@ -131,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         MenuItem mitem=nv.getMenu().findItem(R.id.nav_item1);
 
-        sw=(Switch) mitem.getActionView();
+        sw=(SwitchCompat) mitem.getActionView();
         int nightModeFlags =
                 tb.getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         switch (nightModeFlags) {
@@ -164,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         MenuItem mitem=nv.getMenu().findItem(R.id.nav_item1);
-        sw=(Switch) mitem.getActionView();
+        sw=(SwitchCompat) mitem.getActionView();
         int nightModeFlags =
                 nv.getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         switch (nightModeFlags) {

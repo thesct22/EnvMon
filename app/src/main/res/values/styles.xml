@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.App" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="switchStyle">@style/Widget.App.Switch</item>
+    </style>
+
+    <style name="Widget.App.Switch" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.SwitchCompat</item>
+    </style>
+
+    <style name="ThemeOverlay.App.SwitchCompat" parent="">
+
+        <item name="colorOnSurface">@color/sun</item>
+        <item name="colorSecondary">@color/moon</item>
+    </style>
+    <style name="NavigationTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="listPreferredItemHeightSmall">100dp</item><!-- menu item height- vary as u need -->
+    </style>
+</resources>

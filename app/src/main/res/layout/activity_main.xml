@@ -14,7 +14,9 @@
         android:id="@+id/nav_tempmain"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:theme="@style/NavigationTheme"
         android:layout_gravity="start"
+        android:fitsSystemWindows="true"
         app:headerLayout="@layout/headerfile"
         app:menu="@menu/main_menu" >
 
