@@ -5,4 +5,10 @@
     <string name="main_temperature">Main Temperature</string>
     <string name="main_humidity">Main Humidity</string>
     <string name="dark_mode">Dark Mode</string>
+    <string name="are_you_the_administrstor">Are you the Administrstor?</string>
+    <string name="login">Login</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="register">Register</string>
 </resources>
