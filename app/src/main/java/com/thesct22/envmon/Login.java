@@ -16,6 +16,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthEmailException;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class Login extends AppCompatActivity {
@@ -73,12 +76,27 @@ public class Login extends AppCompatActivity {
                     mAuth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(!task.isSuccessful()){
-                                Toast.makeText(Login.this,"Login Error, Please Login Again",Toast.LENGTH_SHORT).show();
+                            if(task.isSuccessful()){
+                                finish();
+                                startActivity(new Intent(Login.this, MainActivity.class));
+
                             }
                             else{
-                                Intent intToHome = new Intent(Login.this,MainActivity.class);
-                                startActivity(intToHome);
+                                try {
+                                    throw task.getException();
+                                }
+                                catch (FirebaseAuthInvalidCredentialsException e) {
+                                    Toast.makeText(getApplicationContext(), "Invalid Password", Toast.LENGTH_LONG).show();
+                                }
+                                catch (FirebaseAuthEmailException e){
+                                    Toast.makeText(getApplicationContext(), "Invalid Email", Toast.LENGTH_LONG).show();
+                                }
+                                catch (FirebaseAuthException e){
+                                    Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_LONG).show();
+                                }
+                                catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     });
