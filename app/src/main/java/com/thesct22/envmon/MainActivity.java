@@ -203,10 +203,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 ArrayList<ArrayList<Entry>>datavals= new ArrayList<ArrayList<Entry>>();
+                ArrayList<String>labels=new ArrayList<>();
+
                 if(dataSnapshot.hasChildren()){
 
                     for(DataSnapshot mydss:dataSnapshot.getChildren()){
                         ArrayList<Entry> midOne= new ArrayList<>();
+                        labels.add(mydss.getKey());
                         for(DataSnapshot mydsscld:mydss.getChildren()) {
                             String tsstr = mydsscld.getKey();
                             long ts = Long.parseLong(tsstr);
@@ -217,8 +220,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                         datavals.add(midOne);
                     }
-                    showchart(datavals);
-                }
+                    en.setnames(labels);
+                    showchart(datavals,labels);                }
                 else {
                     maintemp1.clear();
                     maintemp1.invalidate();
@@ -237,14 +240,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
     }
-    private void showchart(ArrayList<ArrayList<Entry>> showvals){
+    private void showchart(ArrayList<ArrayList<Entry>> showvals,ArrayList<String> labels){
         temp1ilds.clear();
         en=new envmon();
         colours=en.getcolor();
         boolean chkarr[]=en.getSomeVariable();
         for(int i=0;i<showvals.size();i++) {
             if(chkarr[i]) {
-                LineDataSet temp1lds = new LineDataSet(showvals.get(i), "temperature" + (i + 1));
+                LineDataSet temp1lds = new LineDataSet(showvals.get(i), labels.get(i));
                 temp1lds.setColor(colours.get(i).intValue());
                 temp1lds.setCircleColor(Color.RED);
                 temp1lds.setDrawCircles(true);

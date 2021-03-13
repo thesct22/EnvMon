@@ -67,6 +67,7 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
         mainhum1.setTouchEnabled(true);
         mainhum1.setPinchZoom(true);
         mainhum1.fitScreen();
+        mainhum1.setScaleMinima(10f, 1f);
 
         dl = findViewById(R.id.drawer_hum);
         nv = findViewById(R.id.nav_hummain);
@@ -208,10 +209,12 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 ArrayList<ArrayList<Entry>>datavals= new ArrayList<ArrayList<Entry>>();
+                ArrayList<String>labels=new ArrayList<>();
                 if(dataSnapshot.hasChildren()){
 
                     for(DataSnapshot mydss:dataSnapshot.getChildren()){
                         ArrayList<Entry> midOne= new ArrayList<>();
+                        labels.add(mydss.getKey());
                         for(DataSnapshot mydsscld:mydss.getChildren()) {
                             String tsstr = mydsscld.getKey();
                             long ts = Long.parseLong(tsstr);
@@ -222,7 +225,8 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
                         }
                         datavals.add(midOne);
                     }
-                    showchart(datavals);
+                    en.setnames(labels);
+                    showchart(datavals,labels);
                 }
                 else {
                     mainhum1.clear();
@@ -242,14 +246,14 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
         });
 
     }
-    private void showchart(ArrayList<ArrayList<Entry>> showvals){
+    private void showchart(ArrayList<ArrayList<Entry>> showvals,ArrayList<String> labels){
         temp1ilds.clear();
         en=new envmon();
         colours=en.getcolor();
         boolean chkarr[]=en.getSomeVariable();
         for(int i=0;i<showvals.size();i++) {
             if(chkarr[i]) {
-                LineDataSet temp1lds = new LineDataSet(showvals.get(i), "humdity" + (i + 1));
+                LineDataSet temp1lds = new LineDataSet(showvals.get(i), labels.get(i));
                 temp1lds.setColor(colours.get(i).intValue());
                 temp1lds.setCircleColor(Color.RED);
                 temp1lds.setDrawCircles(true);

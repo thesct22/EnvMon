@@ -9,6 +9,7 @@ public class envmon extends Application {
 
     private static boolean sensoractive[]=new boolean[10];
     private static ArrayList<Integer> lineColors=new ArrayList<>();
+    private static ArrayList<String>sensornames=new ArrayList<>();
     envmon(){
         super();
         lineColors.add(0xFF009933);
@@ -32,5 +33,9 @@ public class envmon extends Application {
 //        for (int i = 0; i < someVariable.length; i++)
 //            sensoractive[i] = someVariable[i];
         sensoractive=someVariable;
+    }
+    public static ArrayList<String> getnames(){return sensornames;}
+    public static void setnames(ArrayList<String> names){
+        sensornames=(ArrayList<String>)names.clone();
     }
 }

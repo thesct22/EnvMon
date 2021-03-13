@@ -19,6 +19,7 @@ public class CheckboxActivity extends AppCompatActivity {
     List <CheckBox> chklist;
     envmon em;
     Toolbar tb;
+    ArrayList<String> sensorNames;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +28,7 @@ public class CheckboxActivity extends AppCompatActivity {
         tb.setNavigationOnClickListener(v -> finish());
         em=new envmon();
         sensorArray=em.getSomeVariable();
+        sensorNames=em.getnames();
         chklist= new ArrayList<CheckBox>();
         chklist.add((CheckBox)findViewById(R.id.sensorcb1));
         chklist.add((CheckBox)findViewById(R.id.sensorcb2));
@@ -39,7 +41,10 @@ public class CheckboxActivity extends AppCompatActivity {
         chklist.add((CheckBox)findViewById(R.id.sensorcb9));
         chklist.add((CheckBox)findViewById(R.id.sensorcb10));
         boolean allchk=true;
-        for (int i=0;i<10;i++){
+        for(int i=0;i<chklist.size();i++){
+            chklist.get(i).setText(sensorNames.get(i));
+        }
+        for (int i=0;i<chklist.size();i++){
             allchk=allchk&&sensorArray[i];
             if(sensorArray[i]){
                 chklist.get(i).setChecked(true);
