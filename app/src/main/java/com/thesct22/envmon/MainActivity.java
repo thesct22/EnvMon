@@ -322,6 +322,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.hummain:
                 startActivity(new Intent(MainActivity.this, Humidity.class));
                 break;
+            case R.id.graph_editor:
+                startActivity(new Intent(MainActivity.this, EditGraphActivity.class));
 //            case R.id.nav_item1:
 //                setdarkmode(item);
 //                break;

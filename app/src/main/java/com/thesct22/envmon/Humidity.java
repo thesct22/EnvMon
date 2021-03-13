@@ -325,6 +325,8 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
             case R.id.hummain:
                 startActivity(new Intent(Humidity.this, Humidity.class));
                 break;
+            case R.id.graph_editor:
+                startActivity(new Intent(Humidity.this, EditGraphActivity.class));
         }
         return true;
     }

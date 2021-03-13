@@ -5,4 +5,12 @@
     <string name="main_temperature">Main Temperature</string>
     <string name="main_humidity">Main Humidity</string>
     <string name="dark_mode">Dark Mode</string>
+    <string-array name="graph_select_array">
+        <item>Minute(s)</item>
+        <item>Hour(s)</item>
+        <item>Day(s)</item>
+        <item>Week(s)</item>
+        <item>Month(s)</item>
+        <item>Year(s)</item>
+    </string-array>
 </resources>
