@@ -203,6 +203,7 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     private void retrievedata(){
+        boolean[] radioselect=en.getradio();
         // Read from the database
         mdb.addValueEventListener(new ValueEventListener() {
             @Override
@@ -220,8 +221,11 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
                             long ts = Long.parseLong(tsstr);
                             Long templong = mydsscld.getValue(Long.class);
                             int tempint = templong.intValue();
+                            if((radioselect[1]||radioselect[3])&&(en.getFromDataMillis()<=ts&&en.getToDataMillis()>=ts))
+                                midOne.add(new Entry((long) ts, tempint));
+                            else if(radioselect[0])
+                                midOne.add(new Entry((long) ts, tempint));
 
-                            midOne.add(new Entry((long) ts, tempint));
                         }
                         datavals.add(midOne);
                     }

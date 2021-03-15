@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -311,8 +312,12 @@ public class EditGraphActivity extends AppCompatActivity {
         }
         else if(radios[3]){
 
-            String from=fromDate.getText().toString()+fromTime.getText().toString();
-            String to=toDate.getText().toString()+toTime.getText().toString();
+            String from= TextUtils.isEmpty(fromDate.getText().toString())?"01-01-1970":fromDate.getText().toString();
+            from+=" ";
+            from+=TextUtils.isEmpty(fromTime.getText().toString())?"00:00":fromTime.getText().toString();
+            String to=TextUtils.isEmpty(toDate.getText().toString())?"01-01-1970":toDate.getText().toString();
+            to+=" ";
+            to+=TextUtils.isEmpty(toTime.getText().toString())?"00:00":toTime.getText().toString();
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm", Locale.ENGLISH);
 
             Date fromdate = new Date();
@@ -320,17 +325,20 @@ public class EditGraphActivity extends AppCompatActivity {
                 fromdate = sdf.parse(from);
             } catch (ParseException e) {
                 e.printStackTrace();
+                //Toast.makeText(getApplicationContext(),"Hello Javatpoint11",Toast.LENGTH_SHORT).show();
             }
             Date todate = new Date();
             try {
                 todate = sdf.parse(to);
             } catch (ParseException e) {
                 e.printStackTrace();
+                Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
             }
             long frommillis = fromdate.getTime();
             long tomillis = todate.getTime();
 
             en.setDataMillis(frommillis, tomillis);
+            //Toast.makeText(getApplicationContext(),Long.toString(tomillis),Toast.LENGTH_LONG).show();
 
         }
 
