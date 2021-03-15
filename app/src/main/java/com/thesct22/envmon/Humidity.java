@@ -221,6 +221,7 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
                             long ts = Long.parseLong(tsstr);
                             Long templong = mydsscld.getValue(Long.class);
                             int tempint = templong.intValue();
+
                             if((radioselect[1]||radioselect[3])&&(en.getFromDataMillis()<=ts&&en.getToDataMillis()>=ts))
                                 midOne.add(new Entry((long) ts, tempint));
                             else if((!radioselect[1])&&(!radioselect[2]))

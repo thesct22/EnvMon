@@ -197,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void retrievedata(){
+        boolean[] radioselect=en.getradio();
         // Read from the database
         mdb.addValueEventListener(new ValueEventListener() {
             @Override
@@ -216,8 +217,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             Long templong = mydsscld.getValue(Long.class);
                             int tempint = templong.intValue();
 
-                            midOne.add(new Entry((long) ts, tempint));
+                            if((radioselect[1]||radioselect[3])&&(en.getFromDataMillis()<=ts&&en.getToDataMillis()>=ts))
+                                midOne.add(new Entry((long) ts, tempint));
+                            else if((!radioselect[1])&&(!radioselect[2]))
+                                midOne.add(new Entry((long) ts, tempint));
                         }
+                        if(radioselect[2])
+                            midOne= new ArrayList<Entry> (midOne.subList( Math.max(midOne.size() - (int)en.getFromDataMillis(), 0), midOne.size()));
                         datavals.add(midOne);
                     }
                     en.setnames(labels);
