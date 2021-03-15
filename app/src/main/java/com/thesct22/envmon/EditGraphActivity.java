@@ -308,7 +308,6 @@ public class EditGraphActivity extends AppCompatActivity {
         }
         else if(radios[2]){
             en.setDataMillis(Integer.parseInt(setvals.getText().toString()),0);
-            Toast.makeText(getApplicationContext(),"Hello Javatpoint",Toast.LENGTH_SHORT).show();
         }
         else if(radios[3]){
 

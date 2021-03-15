@@ -223,10 +223,12 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
                             int tempint = templong.intValue();
                             if((radioselect[1]||radioselect[3])&&(en.getFromDataMillis()<=ts&&en.getToDataMillis()>=ts))
                                 midOne.add(new Entry((long) ts, tempint));
-                            else if(radioselect[0])
+                            else if((!radioselect[1])&&(!radioselect[2]))
                                 midOne.add(new Entry((long) ts, tempint));
 
                         }
+                        if(radioselect[2])
+                            midOne= new ArrayList<Entry> (midOne.subList( Math.max(midOne.size() - (int)en.getFromDataMillis(), 0), midOne.size()));
                         datavals.add(midOne);
                     }
                     en.setnames(labels);
