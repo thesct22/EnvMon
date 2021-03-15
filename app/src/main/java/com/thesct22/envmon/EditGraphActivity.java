@@ -1,11 +1,11 @@
 package com.thesct22.envmon;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -13,21 +13,35 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class EditGraphActivity extends AppCompatActivity {
 
-    EditText fromDate,fromTime,toDate,toTime;
+    envmon en;
+    EditText fromDate,fromTime,toDate,toTime,settime,setvals;
     private int fromYear, fromMonth, fromDay, fromHour, fromMinute;
     private int toYear, toMonth, toDay, toHour, toMinute;
     RadioButton all, lastDates, lastValues, fromto;
+    Spinner spinner;
+    Toolbar tb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_graph);
 
-        Spinner spinner=findViewById(R.id.spinner);
+        en=new envmon();
+        en.setradio(new boolean[]{true, false, false, false});
+
+        tb = findViewById(R.id.toolbarcheckeditgraph);
+        tb.setNavigationOnClickListener(v -> onBackPressed());
+
+        spinner=findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.graph_select_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -37,11 +51,27 @@ public class EditGraphActivity extends AppCompatActivity {
         fromTime=findViewById(R.id.editTextTime);
         toDate=findViewById(R.id.editTextDate2);
         toTime=findViewById(R.id.editTextTime2);
+        settime=findViewById(R.id.editTextNumber2);
+        setvals=findViewById(R.id.editTextNumber3);
 
         all=findViewById(R.id.radioButton2);
         lastDates=findViewById(R.id.radioButton);
         lastValues=findViewById(R.id.radioButton3);
         fromto=findViewById(R.id.radioButton5);
+
+        fromDate.setFocusable(false);
+        fromTime.setFocusable(false);
+        toDate.setFocusable(false);
+        toTime.setFocusable(false);
+
+        fromDate.setEnabled(false);
+        fromTime.setEnabled(false);
+        toDate.setEnabled(false);
+        toTime.setEnabled(false);
+        settime.setEnabled(false);
+        setvals.setEnabled(false);
+        spinner.setEnabled(false);
+
 
         fromDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,6 +186,11 @@ public class EditGraphActivity extends AppCompatActivity {
                 fromTime.setEnabled(false);
                 toDate.setEnabled(false);
                 toTime.setEnabled(false);
+                settime.setEnabled(false);
+                setvals.setEnabled(false);
+                spinner.setEnabled(false);
+
+                en.setradio(new boolean[]{true, false, false, false});
             }
         });
 
@@ -176,6 +211,11 @@ public class EditGraphActivity extends AppCompatActivity {
                 fromTime.setEnabled(false);
                 toDate.setEnabled(false);
                 toTime.setEnabled(false);
+                settime.setEnabled(false);
+                setvals.setEnabled(true);
+                spinner.setEnabled(false);
+
+                en.setradio(new boolean[]{false, false, true, false});
             }
         });
 
@@ -196,6 +236,11 @@ public class EditGraphActivity extends AppCompatActivity {
                 fromTime.setEnabled(false);
                 toDate.setEnabled(false);
                 toTime.setEnabled(false);
+                settime.setEnabled(true);
+                setvals.setEnabled(false);
+                spinner.setEnabled(true);
+
+                en.setradio(new boolean[]{false, true, false, false});
             }
         });
 
@@ -216,7 +261,81 @@ public class EditGraphActivity extends AppCompatActivity {
                 fromTime.setEnabled(true);
                 toDate.setEnabled(true);
                 toTime.setEnabled(true);
+                settime.setEnabled(false);
+                setvals.setEnabled(false);
+                spinner.setEnabled(false);
+
+                en.setradio(new boolean[]{false, false, false, true});
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        en=new envmon();
+
+        spinner=findViewById(R.id.spinner);
+        fromDate=findViewById(R.id.editTextDate);
+        fromTime=findViewById(R.id.editTextTime);
+        toDate=findViewById(R.id.editTextDate2);
+        toTime=findViewById(R.id.editTextTime2);
+        settime=findViewById(R.id.editTextNumber2);
+        setvals=findViewById(R.id.editTextNumber3);
+
+        boolean[] radios=en.getradio();
+
+        if(radios[1]){
+            long nowmillis=System.currentTimeMillis();
+            int multiplier=Integer.parseInt(settime.getText().toString());
+            String param=spinner.getSelectedItem().toString();
+            switch(param){
+                case "Minute(s)":   {en.setDataMillis(nowmillis-60000L*multiplier,nowmillis);
+                                    break;}
+                case "Hour(s)":     {en.setDataMillis(nowmillis-3600000L*multiplier,nowmillis);
+                                    break;}
+                case "Day(s)":      {en.setDataMillis(nowmillis-86400000L*multiplier,nowmillis);
+                                    break;}
+                case "Week(s)":     {en.setDataMillis(nowmillis-604800000L*multiplier,nowmillis);
+                                    break;}
+                case "Month(s)":    {en.setDataMillis(nowmillis-2629746000L*multiplier,nowmillis);
+                                    break;}
+                case "Year(s)":     {en.setDataMillis(nowmillis-31556952000L*multiplier,nowmillis);
+                                    break;}
+            }
+        }
+        else if(radios[2]){
+            en.setDataMillis(Integer.parseInt(setvals.getText().toString()),0);
+            Toast.makeText(getApplicationContext(),"Hello Javatpoint",Toast.LENGTH_SHORT).show();
+        }
+        else if(radios[3]){
+
+            String from=fromDate.getText().toString()+fromTime.getText().toString();
+            String to=toDate.getText().toString()+toTime.getText().toString();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm", Locale.ENGLISH);
+
+            Date fromdate = new Date();
+            try {
+                fromdate = sdf.parse(from);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Date todate = new Date();
+            try {
+                todate = sdf.parse(to);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            long frommillis = fromdate.getTime();
+            long tomillis = todate.getTime();
+
+            en.setDataMillis(frommillis, tomillis);
+
+        }
+
+        else{
+            en.setDataMillis(0,0);
+        }
     }
 }
