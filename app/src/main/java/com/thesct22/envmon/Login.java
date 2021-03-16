@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class Login extends AppCompatActivity {
 
     private EditText txtLEmail,txtLPassword;
-    private Button bLogin;
+    private Button bLogin,bRegister;
     private ProgressBar progressBarL;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
@@ -39,6 +39,7 @@ public class Login extends AppCompatActivity {
         txtLEmail=findViewById(R.id.etLEmail);
         txtLPassword=findViewById(R.id.etLPassword);
         bLogin=findViewById(R.id.btnLogin);
+        bRegister=findViewById(R.id.bRegister);
         progressBarL=findViewById(R.id.progressBar);
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -108,13 +109,13 @@ public class Login extends AppCompatActivity {
 
             }
         });
-//        Register.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intSignUp = new Intent(Login.this, MainActivity.class);
-//                startActivity(intSignUp);
-//            }
-//        });
+        bRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intSignUp = new Intent(Login.this, Register.class);
+                startActivity(intSignUp);
+            }
+        });
     }
 
     @Override
