@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                             if((radioselect[1]||radioselect[3])&&(en.getFromDataMillis()<=ts&&en.getToDataMillis()>=ts))
                                 midOne.add(new Entry((long) ts, tempint));
-                            else if((!radioselect[1])&&(!radioselect[2]))
+                            else if((!radioselect[1])&&(!radioselect[3]))
                                 midOne.add(new Entry((long) ts, tempint));
                         }
                         if(radioselect[2])
@@ -382,44 +382,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.graph_editor:
                 startActivity(new Intent(MainActivity.this, EditGraphActivity.class));
-//            case R.id.nav_item1:
-//                setdarkmode(item);
-//                break;
+
         }
         return true;
     }
-
-
-
-
-//    public void setdarkmode(MenuItem item){
-//        Switch sw= (Switch) item.getActionView();
-//        int nightModeFlags =
-//                tb.getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-//        switch (nightModeFlags) {
-//            case Configuration.UI_MODE_NIGHT_YES:
-//                sw.setChecked(true);
-//                break;
-//
-//            case Configuration.UI_MODE_NIGHT_NO:
-//                sw.setChecked(false);
-//                break;
-//
-//            case Configuration.UI_MODE_NIGHT_UNDEFINED:
-//                sw.setChecked(false);
-//                break;
-//        }
-//        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                // do something, the isChecked will be
-//                // true if the switch is in the On position
-//                if(isChecked){
-//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//                }
-//                else{
-//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//                }
-//            }
-//        });
-//    }
 }

@@ -2,8 +2,8 @@
     <string name="app_name">EnvMon</string>
     <string name="nd_open">Open Navigation Drawer</string>
     <string name="nd_close">Close Navigation Drawer</string>
-    <string name="main_temperature">Main Temperature</string>
-    <string name="main_humidity">Main Humidity</string>
+    <string name="main_temperature">Temperature</string>
+    <string name="main_humidity">Humidity</string>
     <string name="dark_mode">Dark Mode</string>
     <string-array name="graph_select_array">
         <item>Minute(s)</item>

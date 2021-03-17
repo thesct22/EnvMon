@@ -248,6 +248,9 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
 
     private void retrievedata(){
         boolean[] radioselect=en.getradio();
+        for(int i=0;i<radioselect.length;i++) {
+            Log.i(TAG, Boolean.toString(radioselect[i])+" "+i);
+        }
         // Read from the database
         mdb.addValueEventListener(new ValueEventListener() {
             @Override
@@ -266,14 +269,20 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
                             Long templong = mydsscld.getValue(Long.class);
                             int tempint = templong.intValue();
 
-                            if((radioselect[1]||radioselect[3])&&(en.getFromDataMillis()<=ts&&en.getToDataMillis()>=ts))
+                            if((radioselect[1]||radioselect[3])&&(en.getFromDataMillis()<=ts&&en.getToDataMillis()>=ts)) {
                                 midOne.add(new Entry((long) ts, tempint));
-                            else if((!radioselect[1])&&(!radioselect[2]))
+//                                Log.i(TAG, Long.toString(ts));
+                            }
+                            else if((!radioselect[1])&&(!radioselect[3])) {
                                 midOne.add(new Entry((long) ts, tempint));
+//                                Log.i(TAG, Long.toString(ts));
 
+                            }
                         }
-                        if(radioselect[2])
-                            midOne= new ArrayList<Entry> (midOne.subList( Math.max(midOne.size() - (int)en.getFromDataMillis(), 0), midOne.size()));
+                        if(radioselect[2]) {
+                            midOne = new ArrayList<Entry>(midOne.subList(Math.max(midOne.size() - (int) en.getFromDataMillis(), 0), midOne.size()));
+//                            Toast.makeText(getApplicationContext(), Long.toString(en.getFromDataMillis()), Toast.LENGTH_SHORT).show();
+                        }
                         datavals.add(midOne);
                     }
                     en.setnames(labels);
