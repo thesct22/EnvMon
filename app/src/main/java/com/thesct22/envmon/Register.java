@@ -35,8 +35,6 @@ public class Register extends AppCompatActivity {
     FirebaseFirestore fstore;
     private FirebaseAuth mAuth;
     CheckBox checkBoxAdmin;
-    boolean valid = true;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +56,12 @@ public class Register extends AppCompatActivity {
         bRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkField(username);
-                checkField(email);
-                checkField(password);
+                boolean validate=true;
+                validate&=checkField(username);
+                validate&=checkField(email);
+                validate&=checkField(password);
 
-                if(valid){
+                if(validate){
                     mAuth.createUserWithEmailAndPassword(email.getText().toString(),password.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
@@ -73,10 +72,10 @@ public class Register extends AppCompatActivity {
                             userInfo.put("Username", username.getText().toString());
                             userInfo.put("Email", email.getText().toString());
                             if(checkBoxAdmin.isChecked()){
-                                userInfo.put("isAdmin", "1");
+                                userInfo.put("isAdmin", true);
                             }
                             else{
-                                userInfo.put("isAdmin", "0");
+                                userInfo.put("isAdmin", false);
                             }
 
                             df.set(userInfo);
@@ -107,11 +106,8 @@ public class Register extends AppCompatActivity {
     public boolean checkField(EditText textField){
         if(textField.getText().toString().isEmpty()){
             textField.setError("Error");
-            valid = false;
-        }else {
-            valid = true;
+            return false;
         }
-
-        return valid;
+        return true;
     }
 }
