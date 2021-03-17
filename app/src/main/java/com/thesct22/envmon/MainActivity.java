@@ -15,7 +15,9 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -31,19 +33,27 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
@@ -61,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     envmon en;
     ArrayList<Integer> colours;
     SwitchCompat sw;
+    FirebaseFirestore fstore;
+    private FirebaseAuth mAuth;
+    Map<String,Object> userInfo;
 
 
     @Override
@@ -79,6 +92,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dl.addDrawerListener(toggle);
         toggle.syncState();
 
+        mAuth=FirebaseAuth.getInstance();
+        fstore=FirebaseFirestore.getInstance();
+
+        FirebaseUser user = mAuth.getCurrentUser();
+        DocumentReference df=fstore.collection("Users").document(user.getUid());
+        df.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        userInfo =document.getData();
+                        if((Boolean)userInfo.get("isAdmin")){
+                            Menu nav_Menu = nv.getMenu();
+                            nav_Menu.findItem(R.id.adminpanel).setVisible(true);
+                        }
+                        else{
+                            Menu nav_Menu = nv.getMenu();
+                            nav_Menu.findItem(R.id.adminpanel).setVisible(false);
+                        }
+
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
 
 
         int orientation = this.getResources().getConfiguration().orientation;
@@ -324,7 +367,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
-
+            case R.id.signup:
+                startActivity(new Intent(MainActivity.this, Register.class));
+                break;
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(MainActivity.this, Login.class));

@@ -25,6 +25,7 @@ public class Login extends AppCompatActivity {
 
     private EditText txtLEmail,txtLPassword;
     private Button bLogin;
+    private ProgressBar progressBarL;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
 
@@ -38,6 +39,7 @@ public class Login extends AppCompatActivity {
         txtLEmail=findViewById(R.id.etLEmail);
         txtLPassword=findViewById(R.id.etLPassword);
         bLogin=findViewById(R.id.btnLogin);
+        progressBarL=findViewById(R.id.progressBar);
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -106,6 +108,7 @@ public class Login extends AppCompatActivity {
 
             }
         });
+
     }
 
     @Override

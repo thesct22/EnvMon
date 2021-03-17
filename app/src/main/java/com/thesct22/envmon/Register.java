@@ -66,7 +66,7 @@ public class Register extends AppCompatActivity {
                         @Override
                         public void onSuccess(AuthResult authResult) {
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(Register.this, "Account Created ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Register.this, "Account Created", Toast.LENGTH_SHORT).show();
                             DocumentReference df=fstore.collection("Users").document(user.getUid());
                             Map<String,Object> userInfo =new HashMap<>();
                             userInfo.put("Username", username.getText().toString());

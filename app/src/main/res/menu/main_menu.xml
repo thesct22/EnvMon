@@ -44,7 +44,9 @@
             </group>
         </menu>
     </item>
-    <item android:title="Admin Panel">
+    <item
+        android:title="Admin Panel"
+        android:id="@+id/adminpanel">
         <menu>
             <group android:checkableBehavior="single">
                 <item
