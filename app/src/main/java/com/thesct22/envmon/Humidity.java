@@ -32,6 +32,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -326,6 +327,10 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
 
         switch (item.getItemId()) {
 
+            case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(Humidity.this, Login.class));
+                break;
             case R.id.tempmain:
                 startActivity(new Intent(Humidity.this, MainActivity.class));
                 break;
