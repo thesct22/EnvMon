@@ -7,13 +7,10 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.text.ParseException;
@@ -37,7 +34,7 @@ public class EditGraphActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_graph);
 
         en=new envmon();
-        en.setradio(new boolean[]{true, false, false, false});
+        envmon.setradio(new boolean[]{true, false, false, false});
 
         tb = findViewById(R.id.toolbarcheckeditgraph);
         tb.setNavigationOnClickListener(v -> onBackPressed());
@@ -74,200 +71,142 @@ public class EditGraphActivity extends AppCompatActivity {
         spinner.setEnabled(false);
 
 
-        fromDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Get Current Date
-                final Calendar c = Calendar.getInstance();
-                fromYear = c.get(Calendar.YEAR);
-                fromMonth = c.get(Calendar.MONTH);
-                fromDay = c.get(Calendar.DAY_OF_MONTH);
+        fromDate.setOnClickListener(v -> {
+            // Get Current Date
+            final Calendar c = Calendar.getInstance();
+            fromYear = c.get(Calendar.YEAR);
+            fromMonth = c.get(Calendar.MONTH);
+            fromDay = c.get(Calendar.DAY_OF_MONTH);
 
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(EditGraphActivity.this,
-                        new DatePickerDialog.OnDateSetListener() {
-
-                            @Override
-                            public void onDateSet(DatePicker view, int year,
-                                                  int monthOfYear, int dayOfMonth) {
-
-                                fromDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-
-                            }
-                        }, fromYear, fromMonth, fromDay);
-                datePickerDialog.show();
-            }
+            DatePickerDialog datePickerDialog = new DatePickerDialog(EditGraphActivity.this,
+                    (view, year, monthOfYear, dayOfMonth) -> fromDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year), fromYear, fromMonth, fromDay);
+            datePickerDialog.show();
         });
 
-        fromTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Get Current Time
-                final Calendar c = Calendar.getInstance();
-                fromHour = c.get(Calendar.HOUR_OF_DAY);
-                fromMinute = c.get(Calendar.MINUTE);
+        fromTime.setOnClickListener(v -> {
+            // Get Current Time
+            final Calendar c = Calendar.getInstance();
+            fromHour = c.get(Calendar.HOUR_OF_DAY);
+            fromMinute = c.get(Calendar.MINUTE);
 
-                // Launch Time Picker Dialog
-                TimePickerDialog timePickerDialog = new TimePickerDialog(EditGraphActivity.this,
-                        new TimePickerDialog.OnTimeSetListener() {
-
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay,
-                                                  int minute) {
-
-                                fromTime.setText(hourOfDay + ":" + minute);
-                            }
-                        }, fromHour, fromMinute, false);
-                timePickerDialog.show();
-            }
+            // Launch Time Picker Dialog
+            TimePickerDialog timePickerDialog = new TimePickerDialog(EditGraphActivity.this,
+                    (view, hourOfDay, minute) -> fromTime.setText(hourOfDay + ":" + minute), fromHour, fromMinute, false);
+            timePickerDialog.show();
         });
 
-        toDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Get Current Date
-                final Calendar c = Calendar.getInstance();
-                toYear = c.get(Calendar.YEAR);
-                toMonth = c.get(Calendar.MONTH);
-                toDay = c.get(Calendar.DAY_OF_MONTH);
+        toDate.setOnClickListener(v -> {
+            // Get Current Date
+            final Calendar c = Calendar.getInstance();
+            toYear = c.get(Calendar.YEAR);
+            toMonth = c.get(Calendar.MONTH);
+            toDay = c.get(Calendar.DAY_OF_MONTH);
 
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(EditGraphActivity.this,
-                        new DatePickerDialog.OnDateSetListener() {
-
-                            @Override
-                            public void onDateSet(DatePicker view, int year,
-                                                  int monthOfYear, int dayOfMonth) {
-
-                                toDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-
-                            }
-                        }, toYear, toMonth, toDay);
-                datePickerDialog.show();
-            }
+            DatePickerDialog datePickerDialog = new DatePickerDialog(EditGraphActivity.this,
+                    (view, year, monthOfYear, dayOfMonth) -> toDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year), toYear, toMonth, toDay);
+            datePickerDialog.show();
         });
 
-        toTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Get Current Time
-                final Calendar c = Calendar.getInstance();
-                toHour = c.get(Calendar.HOUR_OF_DAY);
-                toMinute = c.get(Calendar.MINUTE);
+        toTime.setOnClickListener(v -> {
+            // Get Current Time
+            final Calendar c = Calendar.getInstance();
+            toHour = c.get(Calendar.HOUR_OF_DAY);
+            toMinute = c.get(Calendar.MINUTE);
 
-                // Launch Time Picker Dialog
-                TimePickerDialog timePickerDialog = new TimePickerDialog(EditGraphActivity.this,
-                        new TimePickerDialog.OnTimeSetListener() {
-
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay,
-                                                  int minute) {
-
-                                toTime.setText(hourOfDay + ":" + minute);
-                            }
-                        }, toHour, toMinute, false);
-                timePickerDialog.show();
-            }
+            // Launch Time Picker Dialog
+            TimePickerDialog timePickerDialog = new TimePickerDialog(EditGraphActivity.this,
+                    (view, hourOfDay, minute) -> toTime.setText(hourOfDay + ":" + minute), toHour, toMinute, false);
+            timePickerDialog.show();
         });
 
-        all.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                all.setChecked(true);
-                lastDates.setChecked(false);
-                lastValues.setChecked(false);
-                fromto.setChecked(false);
+        all.setOnClickListener(v -> {
+            all.setChecked(true);
+            lastDates.setChecked(false);
+            lastValues.setChecked(false);
+            fromto.setChecked(false);
 
-                fromDate.setFocusable(false);
-                fromTime.setFocusable(false);
-                toDate.setFocusable(false);
-                toTime.setFocusable(false);
+            fromDate.setFocusable(false);
+            fromTime.setFocusable(false);
+            toDate.setFocusable(false);
+            toTime.setFocusable(false);
 
-                fromDate.setEnabled(false);
-                fromTime.setEnabled(false);
-                toDate.setEnabled(false);
-                toTime.setEnabled(false);
-                settime.setEnabled(false);
-                setvals.setEnabled(false);
-                spinner.setEnabled(false);
+            fromDate.setEnabled(false);
+            fromTime.setEnabled(false);
+            toDate.setEnabled(false);
+            toTime.setEnabled(false);
+            settime.setEnabled(false);
+            setvals.setEnabled(false);
+            spinner.setEnabled(false);
 
-                en.setradio(new boolean[]{true, false, false, false});
-            }
+            envmon.setradio(new boolean[]{true, false, false, false});
         });
 
-        lastValues.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                all.setChecked(false);
-                lastDates.setChecked(false);
-                lastValues.setChecked(true);
-                fromto.setChecked(false);
+        lastValues.setOnClickListener(v -> {
+            all.setChecked(false);
+            lastDates.setChecked(false);
+            lastValues.setChecked(true);
+            fromto.setChecked(false);
 
-                fromDate.setFocusable(false);
-                fromTime.setFocusable(false);
-                toDate.setFocusable(false);
-                toTime.setFocusable(false);
+            fromDate.setFocusable(false);
+            fromTime.setFocusable(false);
+            toDate.setFocusable(false);
+            toTime.setFocusable(false);
 
-                fromDate.setEnabled(false);
-                fromTime.setEnabled(false);
-                toDate.setEnabled(false);
-                toTime.setEnabled(false);
-                settime.setEnabled(false);
-                setvals.setEnabled(true);
-                spinner.setEnabled(false);
+            fromDate.setEnabled(false);
+            fromTime.setEnabled(false);
+            toDate.setEnabled(false);
+            toTime.setEnabled(false);
+            settime.setEnabled(false);
+            setvals.setEnabled(true);
+            spinner.setEnabled(false);
 
-                en.setradio(new boolean[]{false, false, true, false});
-            }
+            envmon.setradio(new boolean[]{false, false, true, false});
         });
 
-        lastDates.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                all.setChecked(false);
-                lastDates.setChecked(true);
-                lastValues.setChecked(false);
-                fromto.setChecked(false);
+        lastDates.setOnClickListener(v -> {
+            all.setChecked(false);
+            lastDates.setChecked(true);
+            lastValues.setChecked(false);
+            fromto.setChecked(false);
 
-                fromDate.setFocusable(false);
-                fromTime.setFocusable(false);
-                toDate.setFocusable(false);
-                toTime.setFocusable(false);
+            fromDate.setFocusable(false);
+            fromTime.setFocusable(false);
+            toDate.setFocusable(false);
+            toTime.setFocusable(false);
 
-                fromDate.setEnabled(false);
-                fromTime.setEnabled(false);
-                toDate.setEnabled(false);
-                toTime.setEnabled(false);
-                settime.setEnabled(true);
-                setvals.setEnabled(false);
-                spinner.setEnabled(true);
+            fromDate.setEnabled(false);
+            fromTime.setEnabled(false);
+            toDate.setEnabled(false);
+            toTime.setEnabled(false);
+            settime.setEnabled(true);
+            setvals.setEnabled(false);
+            spinner.setEnabled(true);
 
-                en.setradio(new boolean[]{false, true, false, false});
-            }
+            envmon.setradio(new boolean[]{false, true, false, false});
         });
 
-        fromto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                all.setChecked(false);
-                lastDates.setChecked(false);
-                lastValues.setChecked(false);
-                fromto.setChecked(true);
+        fromto.setOnClickListener(v -> {
+            all.setChecked(false);
+            lastDates.setChecked(false);
+            lastValues.setChecked(false);
+            fromto.setChecked(true);
 
-                fromDate.setFocusable(true);
-                fromTime.setFocusable(true);
-                toDate.setFocusable(true);
-                toTime.setFocusable(true);
+            fromDate.setFocusable(true);
+            fromTime.setFocusable(true);
+            toDate.setFocusable(true);
+            toTime.setFocusable(true);
 
-                fromDate.setEnabled(true);
-                fromTime.setEnabled(true);
-                toDate.setEnabled(true);
-                toTime.setEnabled(true);
-                settime.setEnabled(false);
-                setvals.setEnabled(false);
-                spinner.setEnabled(false);
+            fromDate.setEnabled(true);
+            fromTime.setEnabled(true);
+            toDate.setEnabled(true);
+            toTime.setEnabled(true);
+            settime.setEnabled(false);
+            setvals.setEnabled(false);
+            spinner.setEnabled(false);
 
-                en.setradio(new boolean[]{false, false, false, true});
-            }
+            envmon.setradio(new boolean[]{false, false, false, true});
         });
     }
 
@@ -285,29 +224,35 @@ public class EditGraphActivity extends AppCompatActivity {
         settime=findViewById(R.id.editTextNumber2);
         setvals=findViewById(R.id.editTextNumber3);
 
-        boolean[] radios=en.getradio();
+        boolean[] radios= envmon.getradio();
 
         if(radios[1]){
             long nowmillis=System.currentTimeMillis();
             int multiplier=Integer.parseInt(settime.getText().toString());
             String param=spinner.getSelectedItem().toString();
             switch(param){
-                case "Minute(s)":   {en.setDataMillis(nowmillis-60000L*multiplier,nowmillis);
+                case "Minute(s)":   {
+                    envmon.setDataMillis(nowmillis-60000L*multiplier,nowmillis);
                                     break;}
-                case "Hour(s)":     {en.setDataMillis(nowmillis-3600000L*multiplier,nowmillis);
+                case "Hour(s)":     {
+                    envmon.setDataMillis(nowmillis-3600000L*multiplier,nowmillis);
                                     break;}
-                case "Day(s)":      {en.setDataMillis(nowmillis-86400000L*multiplier,nowmillis);
+                case "Day(s)":      {
+                    envmon.setDataMillis(nowmillis-86400000L*multiplier,nowmillis);
                                     break;}
-                case "Week(s)":     {en.setDataMillis(nowmillis-604800000L*multiplier,nowmillis);
+                case "Week(s)":     {
+                    envmon.setDataMillis(nowmillis-604800000L*multiplier,nowmillis);
                                     break;}
-                case "Month(s)":    {en.setDataMillis(nowmillis-2629746000L*multiplier,nowmillis);
+                case "Month(s)":    {
+                    envmon.setDataMillis(nowmillis-2629746000L*multiplier,nowmillis);
                                     break;}
-                case "Year(s)":     {en.setDataMillis(nowmillis-31556952000L*multiplier,nowmillis);
+                case "Year(s)":     {
+                    envmon.setDataMillis(nowmillis-31556952000L*multiplier,nowmillis);
                                     break;}
             }
         }
         else if(radios[2]){
-            en.setDataMillis(Integer.parseInt(setvals.getText().toString()),0);
+            envmon.setDataMillis(Integer.parseInt(setvals.getText().toString()),0);
 //            Toast.makeText(getApplicationContext(),Long.toString(en.getFromDataMillis()),Toast.LENGTH_LONG).show();
         }
         else if(radios[3]){
@@ -334,16 +279,18 @@ public class EditGraphActivity extends AppCompatActivity {
                 e.printStackTrace();
                 Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
             }
+            assert fromdate != null;
             long frommillis = fromdate.getTime();
+            assert todate != null;
             long tomillis = todate.getTime();
 
-            en.setDataMillis(frommillis, tomillis);
+            envmon.setDataMillis(frommillis, tomillis);
             //Toast.makeText(getApplicationContext(),Long.toString(tomillis),Toast.LENGTH_LONG).show();
 
         }
 
         else{
-            en.setDataMillis(0,0);
+            envmon.setDataMillis(0,0);
         }
     }
 }

@@ -8,7 +8,7 @@ public class envmon extends Application {
 
     private static boolean[] sensoractive=new boolean[10];
     private static boolean[] radioSelect=new boolean[4];
-    private static ArrayList<Integer> lineColors=new ArrayList<>();
+    private static final ArrayList<Integer> lineColors=new ArrayList<>();
     private static ArrayList<String>sensornames=new ArrayList<>();
     private static long toDataMillis, fromDataMillis;
     envmon(){

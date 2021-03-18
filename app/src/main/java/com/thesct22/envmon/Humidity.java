@@ -6,12 +6,10 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,8 +30,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -69,7 +65,6 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
     ArrayList<Integer> colours;
     SwitchCompat sw;
     FirebaseFirestore fstore;
-    private FirebaseAuth mAuth;
     Map<String,Object> userInfo;
     boolean isRotate=false;
 
@@ -94,33 +89,28 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
         dl.addDrawerListener(toggle);
         toggle.syncState();
 
-        mAuth=FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         fstore= FirebaseFirestore.getInstance();
 
         FirebaseUser user = mAuth.getCurrentUser();
+        assert user != null;
         DocumentReference df=fstore.collection("Users").document(user.getUid());
-        df.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        userInfo =document.getData();
-                        if((Boolean)userInfo.get("isAdmin")){
-                            Menu nav_Menu = nv.getMenu();
-                            nav_Menu.findItem(R.id.adminpanel).setVisible(true);
-                        }
-                        else{
-                            Menu nav_Menu = nv.getMenu();
-                            nav_Menu.findItem(R.id.adminpanel).setVisible(false);
-                        }
-
-                    } else {
-                        Log.d(TAG, "No such document");
+        df.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                assert document != null;
+                if (document.exists()) {
+                    userInfo =document.getData();
+                    assert userInfo != null;
+                    if((Boolean)userInfo.get("isAdmin")){
+                        Menu nav_Menu = nv.getMenu();
+                        nav_Menu.findItem(R.id.adminpanel).setVisible(true);
                     }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
+                    else{
+                        Menu nav_Menu = nv.getMenu();
+                        nav_Menu.findItem(R.id.adminpanel).setVisible(false);
+                    }
+
                 }
             }
         });
@@ -133,45 +123,36 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
             ViewAnimation.init(fab_graph);
             ViewAnimation.init(fab_one);
 
-            fab_settings.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    isRotate = ViewAnimation.rotateFab(v, !isRotate);
-                    if (isRotate) {
-                        ViewAnimation.showIn(fab_graph);
-                        ViewAnimation.showIn(fab_one);
-                    } else {
-                        ViewAnimation.showOut(fab_graph);
-                        ViewAnimation.showOut(fab_one);
-                    }
+            fab_settings.setOnClickListener(v -> {
+                isRotate = ViewAnimation.rotateFab(v, !isRotate);
+                if (isRotate) {
+                    ViewAnimation.showIn(fab_graph);
+                    ViewAnimation.showIn(fab_one);
+                } else {
+                    ViewAnimation.showOut(fab_graph);
+                    ViewAnimation.showOut(fab_one);
                 }
             });
-            fab_one.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent prof_intent = new Intent(getApplicationContext(),CheckboxActivity.class);
+            fab_one.setOnClickListener(v -> {
+                Intent prof_intent = new Intent(getApplicationContext(),CheckboxActivity.class);
 
-                    Pair[] pairs = new Pair[1];
-                    pairs[0] = new Pair<View,String>(fab_one,"activity_trans");
+                Pair[] pairs = new Pair[1];
+                pairs[0] = new Pair<View,String>(fab_one,"activity_trans");
 
 
-                    ActivityOptions options =ActivityOptions.makeSceneTransitionAnimation(Humidity.this, pairs);
-                    startActivity(prof_intent,options.toBundle());
-                }
+                ActivityOptions options =ActivityOptions.makeSceneTransitionAnimation(Humidity.this, pairs);
+                startActivity(prof_intent,options.toBundle());
             });
 
-            fab_graph.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent prof_intent = new Intent(getApplicationContext(),EditGraphActivity.class);
+            fab_graph.setOnClickListener(v -> {
+                Intent prof_intent = new Intent(getApplicationContext(),EditGraphActivity.class);
 
-                    Pair[] pairs = new Pair[1];
-                    pairs[0] = new Pair<View,String>(fab_one,"activity_trans");
+                Pair[] pairs = new Pair[1];
+                pairs[0] = new Pair<View,String>(fab_one,"activity_trans");
 
 
-                    ActivityOptions options =ActivityOptions.makeSceneTransitionAnimation(Humidity.this, pairs);
-                    startActivity(prof_intent,options.toBundle());
-                }
+                ActivityOptions options =ActivityOptions.makeSceneTransitionAnimation(Humidity.this, pairs);
+                startActivity(prof_intent,options.toBundle());
             });
         }
 
@@ -209,23 +190,19 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
                 break;
 
             case Configuration.UI_MODE_NIGHT_NO:
-                sw.setChecked(false);
-                break;
 
             case Configuration.UI_MODE_NIGHT_UNDEFINED:
                 sw.setChecked(false);
                 break;
         }
-        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // do something, the isChecked will be
-                // true if the switch is in the On position
-                if(isChecked){
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                }
-                else{
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                }
+        sw.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // do something, the isChecked will be
+            // true if the switch is in the On position
+            if(isChecked){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            }
+            else{
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
         });
 
@@ -243,23 +220,19 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
                 break;
 
             case Configuration.UI_MODE_NIGHT_NO:
-                sw.setChecked(false);
-                break;
 
             case Configuration.UI_MODE_NIGHT_UNDEFINED:
                 sw.setChecked(false);
                 break;
         }
-        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // do something, the isChecked will be
-                // true if the switch is in the On position
-                if(isChecked){
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                }
-                else{
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                }
+        sw.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // do something, the isChecked will be
+            // true if the switch is in the On position
+            if(isChecked){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            }
+            else{
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
         });
         super.onResume();
@@ -279,16 +252,13 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     private void retrievedata(){
-        boolean[] radioselect=en.getradio();
-        for(int i=0;i<radioselect.length;i++) {
-            Log.i(TAG, Boolean.toString(radioselect[i])+" "+i);
-        }
+        boolean[] radioselect= envmon.getradio();
         // Read from the database
         mdb.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                ArrayList<ArrayList<Entry>>datavals= new ArrayList<ArrayList<Entry>>();
+                ArrayList<ArrayList<Entry>>datavals= new ArrayList<>();
                 ArrayList<String>labels=new ArrayList<>();
                 if(dataSnapshot.hasChildren()){
 
@@ -297,27 +267,29 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
                         labels.add(mydss.getKey());
                         for(DataSnapshot mydsscld:mydss.getChildren()) {
                             String tsstr = mydsscld.getKey();
+                            assert tsstr != null;
                             long ts = Long.parseLong(tsstr);
                             Long templong = mydsscld.getValue(Long.class);
+                            assert templong != null;
                             int tempint = templong.intValue();
 
-                            if((radioselect[1]||radioselect[3])&&(en.getFromDataMillis()<=ts&&en.getToDataMillis()>=ts)) {
-                                midOne.add(new Entry((long) ts, tempint));
+                            if((radioselect[1]||radioselect[3])&&(envmon.getFromDataMillis()<=ts&& envmon.getToDataMillis()>=ts)) {
+                                midOne.add(new Entry(ts, tempint));
 //                                Log.i(TAG, Long.toString(ts));
                             }
                             else if((!radioselect[1])&&(!radioselect[3])) {
-                                midOne.add(new Entry((long) ts, tempint));
+                                midOne.add(new Entry(ts, tempint));
 //                                Log.i(TAG, Long.toString(ts));
 
                             }
                         }
                         if(radioselect[2]) {
-                            midOne = new ArrayList<Entry>(midOne.subList(Math.max(midOne.size() - (int) en.getFromDataMillis(), 0), midOne.size()));
+                            midOne = new ArrayList<>(midOne.subList(Math.max(midOne.size() - (int) envmon.getFromDataMillis(), 0), midOne.size()));
 //                            Toast.makeText(getApplicationContext(), Long.toString(en.getFromDataMillis()), Toast.LENGTH_SHORT).show();
                         }
                         datavals.add(midOne);
                     }
-                    en.setnames(labels);
+                    envmon.setnames(labels);
                     showchart(datavals,labels);
                 }
                 else {
@@ -341,12 +313,12 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
     private void showchart(ArrayList<ArrayList<Entry>> showvals,ArrayList<String> labels){
         temp1ilds.clear();
         en=new envmon();
-        colours=en.getcolor();
-        boolean chkarr[]=en.getSomeVariable();
+        colours= envmon.getcolor();
+        boolean[] chkarr = envmon.getSomeVariable();
         for(int i=0;i<showvals.size();i++) {
             if(chkarr[i]) {
                 LineDataSet temp1lds = new LineDataSet(showvals.get(i), labels.get(i));
-                temp1lds.setColor(colours.get(i).intValue());
+                temp1lds.setColor(colours.get(i));
                 temp1lds.setCircleColor(Color.RED);
                 temp1lds.setDrawCircles(true);
                 temp1lds.setDrawCircleHole(true);

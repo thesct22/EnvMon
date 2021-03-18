@@ -81,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_margin="10dp"
-                    android:contentDescription="Select Sensors"
+                    android:contentDescription="@string/select_sensors"
                     android:transitionName="tocb"
                     app:fabSize="mini"
                     app:rippleColor="@color/white"
@@ -93,7 +93,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:contentDescription="Graph Parameters"
+                    android:contentDescription="@string/graph_parameters"
                     android:transitionName="tocb"
                     app:fabSize="mini"
                     app:rippleColor="@color/white"
@@ -104,7 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:contentDescription="Graph Settings"
+                    android:contentDescription="@string/graph_settings"
                     app:srcCompat="@drawable/ic_baseline_settings_24"
                     app:tint="#3700B3" />
             </androidx.appcompat.widget.LinearLayoutCompat>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <item android:title="Graphs">
+    <item android:title="@string/graphs">
         <menu>
             <group android:checkableBehavior="single">
                 <item
@@ -19,7 +19,7 @@
         </menu>
     </item>
 
-    <item android:title="Dark Mode">
+    <item android:title="@string/dark_mode">
         <menu>
             <item
                 android:id="@+id/nav_item1"
@@ -29,25 +29,25 @@
                 tools:ignore="MenuTitle"/>
         </menu>
     </item>
-    <item android:title="Profile">
+    <item android:title="@string/profile">
         <menu>
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/logout"
                     android:icon="@drawable/ic_logout"
-                    android:title="Logout" />
+                    android:title="@string/logout" />
             </group>
         </menu>
     </item>
     <item
-        android:title="Admin Panel"
+        android:title="@string/admin_panel"
         android:id="@+id/adminpanel">
         <menu>
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/signup"
                     android:icon="@drawable/ic_baseline_person_add_24"
-                    android:title="Add New User" />
+                    android:title="@string/add_new_user" />
             </group>
         </menu>
     </item>

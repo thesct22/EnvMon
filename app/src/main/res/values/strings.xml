@@ -19,4 +19,12 @@
     <string name="enter_username">Enter Username</string>
     <string name="enter_email">Enter Email</string>
     <string name="register">Register</string>
+    <string name="graphs">Graphs</string>
+    <string name="profile">Profile</string>
+    <string name="logout">Logout</string>
+    <string name="admin_panel">Admin Panel</string>
+    <string name="add_new_user">Add New User</string>
+    <string name="select_sensors">Select Sensors</string>
+    <string name="graph_parameters">Graph Parameters</string>
+    <string name="graph_settings">Graph Settings</string>
 </resources>
