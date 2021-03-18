@@ -64,13 +64,14 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
     DrawerLayout dl;
     NavigationView nv;
     Toolbar tb;
-    FloatingActionButton fab_one;
+    FloatingActionButton fab_one,fab_settings,fab_graph;
     envmon en;
     ArrayList<Integer> colours;
     SwitchCompat sw;
     FirebaseFirestore fstore;
     private FirebaseAuth mAuth;
     Map<String,Object> userInfo;
+    boolean isRotate=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,12 +127,43 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
 
         int orientation = this.getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            fab_settings = findViewById(R.id.graphSettingshum);
             fab_one = findViewById(R.id.fabhum);
+            fab_graph = findViewById(R.id.graphParametershum);
+            ViewAnimation.init(fab_graph);
+            ViewAnimation.init(fab_one);
 
+            fab_settings.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    isRotate = ViewAnimation.rotateFab(v, !isRotate);
+                    if (isRotate) {
+                        ViewAnimation.showIn(fab_graph);
+                        ViewAnimation.showIn(fab_one);
+                    } else {
+                        ViewAnimation.showOut(fab_graph);
+                        ViewAnimation.showOut(fab_one);
+                    }
+                }
+            });
             fab_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent prof_intent = new Intent(getApplicationContext(),CheckboxActivity.class);
+
+                    Pair[] pairs = new Pair[1];
+                    pairs[0] = new Pair<View,String>(fab_one,"activity_trans");
+
+
+                    ActivityOptions options =ActivityOptions.makeSceneTransitionAnimation(Humidity.this, pairs);
+                    startActivity(prof_intent,options.toBundle());
+                }
+            });
+
+            fab_graph.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent prof_intent = new Intent(getApplicationContext(),EditGraphActivity.class);
 
                     Pair[] pairs = new Pair[1];
                     pairs[0] = new Pair<View,String>(fab_one,"activity_trans");
@@ -150,8 +182,8 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
         // enable scaling and dragging
         mainhum1.setDragEnabled(true);
         mainhum1.setScaleEnabled(true);
-         mainhum1.setScaleXEnabled(true);
-         mainhum1.setScaleYEnabled(true);
+        mainhum1.setScaleXEnabled(true);
+        mainhum1.setScaleYEnabled(true);
 
 
         mainhum1.setPinchZoom(true);
@@ -392,8 +424,6 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
             case R.id.hummain:
                 startActivity(new Intent(Humidity.this, Humidity.class));
                 break;
-            case R.id.graph_editor:
-                startActivity(new Intent(Humidity.this, EditGraphActivity.class));
         }
         return true;
     }

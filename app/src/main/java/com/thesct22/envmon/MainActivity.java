@@ -67,14 +67,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout dl;
     NavigationView nv;
     Toolbar tb;
-    FloatingActionButton fab_one;
+    FloatingActionButton fab_one,fab_settings,fab_graph;
     envmon en;
     ArrayList<Integer> colours;
     SwitchCompat sw;
     FirebaseFirestore fstore;
     private FirebaseAuth mAuth;
     Map<String,Object> userInfo;
-
+    boolean isRotate=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,12 +126,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         int orientation = this.getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            fab_settings=findViewById(R.id.graphSettings);
             fab_one = findViewById(R.id.fabtemp);
+            fab_graph=findViewById(R.id.graphParameters);
+            ViewAnimation.init(fab_graph);
+            ViewAnimation.init(fab_one);
+
+            fab_settings.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    isRotate = ViewAnimation.rotateFab(v, !isRotate);
+                    if (isRotate) {
+                        ViewAnimation.showIn(fab_graph);
+                        ViewAnimation.showIn(fab_one);
+                    } else {
+                        ViewAnimation.showOut(fab_graph);
+                        ViewAnimation.showOut(fab_one);
+                    }
+                }
+            });
+
 
             fab_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent prof_intent = new Intent(getApplicationContext(),CheckboxActivity.class);
+
+                    Pair[] pairs = new Pair[1];
+                    pairs[0] = new Pair<View,String>(fab_one,"activity_trans");
+
+
+                    ActivityOptions options =ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
+                    startActivity(prof_intent,options.toBundle());
+                }
+            });
+
+            fab_graph.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent prof_intent = new Intent(getApplicationContext(),EditGraphActivity.class);
 
                     Pair[] pairs = new Pair[1];
                     pairs[0] = new Pair<View,String>(fab_one,"activity_trans");
@@ -380,9 +413,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.hummain:
                 startActivity(new Intent(MainActivity.this, Humidity.class));
                 break;
-            case R.id.graph_editor:
-                startActivity(new Intent(MainActivity.this, EditGraphActivity.class));
-
         }
         return true;
     }
