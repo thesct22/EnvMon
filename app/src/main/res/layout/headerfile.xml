@@ -6,15 +6,14 @@
     android:background="@drawable/menuback"
     android:gravity="bottom"
     >
-    <!--    <ImageView-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:src="blahblah"/>-->
-    <TextView
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/usernamedisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
+        android:gravity="center"
+        android:padding="10sp"
         android:textColor="#FFFFFF"
-        android:textSize="60sp" />
+        android:textSize="30sp" />
 
 </LinearLayout>

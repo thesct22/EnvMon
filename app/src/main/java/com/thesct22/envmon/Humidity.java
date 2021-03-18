@@ -10,6 +10,7 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -101,6 +102,9 @@ public class Humidity extends AppCompatActivity implements NavigationView.OnNavi
                 assert document != null;
                 if (document.exists()) {
                     userInfo =document.getData();
+                    View headerView = nv.getHeaderView(0);
+                    TextView navUsername = (TextView) headerView.findViewById(R.id.usernamedisplay);
+                    navUsername.setText((String)userInfo.get("Username"));
                     assert userInfo != null;
                     if((Boolean)userInfo.get("isAdmin")){
                         Menu nav_Menu = nv.getMenu();

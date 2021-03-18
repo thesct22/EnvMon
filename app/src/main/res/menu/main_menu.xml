@@ -9,10 +9,12 @@
                 <item
                     android:id="@+id/tempmain"
                     android:title="@string/main_temperature"
+                    android:icon="@drawable/ic_baseline_thermostat_24"
                     tools:ignore="MenuTitle"/>
                 <item
                     android:id="@+id/hummain"
                     android:title="@string/main_humidity"
+                    android:icon="@drawable/ic_baseline_water_damage_24"
                     tools:ignore="MenuTitle"
                     />
             </group>
@@ -24,6 +26,7 @@
             <item
                 android:id="@+id/nav_item1"
                 android:title="@string/dark_mode"
+                android:icon="@drawable/ic_baseline_settings_brightness_24"
                 app:actionLayout="@layout/layout_switch"
                 app:showAsAction="always"
                 tools:ignore="MenuTitle"/>
