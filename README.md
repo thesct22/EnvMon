@@ -9,3 +9,9 @@ Also you can filter out last "n" values or values between 2 dates and show them 
 Includes user login
 
 Only admin users can add new users
+
+## Sample Login
+
+Since only admins can add new users, to check out the app or website use:
+xyz@abcd.com
+12345678
